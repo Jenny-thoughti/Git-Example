@@ -100,28 +100,29 @@ app.delete('/posts/:id', (req, res) => {
 })
 
 
-// // //update
-// app.put('/posts', (req, res) => {
-//     pool.getConnection((err, connection) => {
-//         if(err) throw err
-//         console.log('connected as id ${connection.threadId}')
+//update
+app.put('/posts', (req, res) => {
+    pool.getConnection((err, connection) => {
+        if(err) throw err
+        console.log('connected')
 
-        
-//         const {id, name, comment_status} = req.body
 
-//         connection.query('UPDATE posts SET name = ?, comment_status = ? WHERE id = ?', [name, comment_status, id] , (err, rows) => {
-//             connection.release()
+        const {id, name, comment_status,users_id} = req.body
 
-//             if(!err){
-//                 res.send('Users with the name : ${name} has been added.')
-//             }else{
-//                 console.log(err)
-//             }
-//         })
+        connection.query('UPDATE posts SET name = ?, comment_status = ?,users_id = ? WHERE id = ?', [name, comment_status, users_id, id] , (err, rows) => {
+            connection.release()
 
-//         console.log(req.body)
-//     })
-// })
+            if(!err){
+                res.send('Users has been added.')
+            }else{
+                console.log(err)
+            }
+        })
+
+        console.log(req.body)
+    })
+})
+
 
 
 //const express = require('express');
