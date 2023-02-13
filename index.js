@@ -1,9 +1,9 @@
+// const dotenv = require('dotenv');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const app = express();
-
-
+app.use(express.json());
 
 
 // //MySQL
@@ -18,12 +18,13 @@ const pool = mysql.createPool({
 
 
 
-// //Posts
-// //Read-get all users
+
+//Posts
+//Read-get all users
 app.get('/posts', (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err
-        console.log('connected as id ${connection.threaded}')
+        console.log('connected')
 
         connection.query('SELECT * from posts', (err, rows) => {
             connection.release()
@@ -38,11 +39,11 @@ app.get('/posts', (req, res) => {
 })
 
 
-// //Read
+//Read
 app.get('/posts/:id', (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err
-        console.log('connected as id ${connection.threaded}')
+        console.log('connected as id ')
 
         connection.query('SELECT * from posts WHERE ID = ? ', [req.params.id], (err, rows) => {
             connection.release()
@@ -57,7 +58,7 @@ app.get('/posts/:id', (req, res) => {
 })
 
 
-// //create- add new row 
+//create- add new row 
 app.post('/posts', (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err
@@ -65,7 +66,7 @@ app.post('/posts', (req, res) => {
         connection.query('INSERT INTO posts SET ?', postParams, (err, rows) => {
             connection.release()
             if(!err){
-                res.send('Users  has been added.')
+                res.send('Users has been added.')
             }else{
                 console.log(err)
             }
@@ -75,17 +76,17 @@ app.post('/posts', (req, res) => {
 })
 
 
-// //Delete
+//Delete
 app.delete('/posts/:id', (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err
-        console.log('connected as id ${connection.threaded}')
+        console.log('connected')
 
         connection.query('Delete from posts WHERE ID = ? ', [req.params.id], (err, rows) => {
             connection.release()
 
             if(!err){
-                res.send('Users with the Record Id: ${[req.params.id]} has been removed')
+                res.send('Users  has been removed')
             }else{
                 console.log(err)
             }
@@ -94,7 +95,7 @@ app.delete('/posts/:id', (req, res) => {
 })
 
 
-//update
+// // //update
 app.put('/posts', (req, res) => {
     pool.getConnection((err, connection) => {
         if(err) throw err
@@ -119,12 +120,9 @@ app.put('/posts', (req, res) => {
 
 
 
-
 // import users routes
 const usersRoutes = require('./src/users-route');
-//const postsRoutes = require('./src/posts-route')
-
-
+const dbConn = require('./config');
 
 
 // setup the server port
@@ -136,6 +134,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 // parse request data content type application/json
 app.use(bodyParser.json());
 
+//Task 1
 // define root route
 app.get('/hello', (req, res)=>{
     res.send('Hello World');
@@ -145,6 +144,7 @@ app.get('/hello', (req, res)=>{
 
 // create users routes
 app.use('/', usersRoutes);
+
 
 
 
