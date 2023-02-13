@@ -59,26 +59,21 @@ app.get('/posts/:id', (req, res) => {
 
 
 // //create- add new row 
-// app.post('/posts', (req, res) => {
-
-//     pool.getConnection((err, connection) => {
-//         if(err) throw err
-
-//         const postParams = req.body
-
-//         connection.query('INSERT INTO posts SET ?', postParams, (err, rows) => {
-//             connection.release()
-
-//             if(!err){
-//                 res.send('Users with the name: ${postParams.name} has been added.')
-//             }else{
-//                 console.log(err)
-//             }
-//         })
-
-//         console.log(req.body)
-//     })
-// })
+app.post('/posts', (req, res) => {
+    pool.getConnection((err, connection) => {
+        if(err) throw err
+        const postParams = req.body
+        connection.query('INSERT INTO posts SET ?', postParams, (err, rows) => {
+            connection.release()
+            if(!err){
+                res.send('Users  has been added.')
+            }else{
+                console.log(err)
+            }
+        })
+        console.log(req.body)
+    })
+})
 
 
 // //Delete
