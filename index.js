@@ -5,7 +5,7 @@ const mysql = require('mysql');
 const app = express();
 app.use(express.json());
 
-
+//localhosts:3000
 // //MySQL
 const pool = mysql.createPool({
     connectionLimit : 10,
