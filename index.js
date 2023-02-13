@@ -1,4 +1,3 @@
-// const dotenv = require('dotenv');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
@@ -120,15 +119,13 @@ app.put('/posts', (req, res) => {
 
 
 
-//const express = require('express');
-//const bodyParser = require('body-parser');
+
 // import users routes
 const usersRoutes = require('./src/users-route');
 //const postsRoutes = require('./src/posts-route')
 
 
-// create express app
-//const app = express();
+
 
 // setup the server port
 const port = process.env.PORT || 3000;
@@ -148,12 +145,6 @@ app.get('/hello', (req, res)=>{
 
 // create users routes
 app.use('/', usersRoutes);
-
-// create posts routes
-//app.use('/', postsRoutes);
-
-
-
 
 
 
