@@ -3,7 +3,8 @@ const router = express.Router();
 
 const usersController = require('./users-export');
 
-
+/** *
+// TODO: @jenny fix this
 //users
 // get all userss
 router.get('/users', usersController.getUsersList);
@@ -19,6 +20,7 @@ router.put('/users/:id"', usersController.updateUsers);
 
 // delete users
 router.delete('/users/:id',usersController.deleteUsers);
+/** */
 
 
 

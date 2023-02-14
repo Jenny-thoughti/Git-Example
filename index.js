@@ -122,6 +122,7 @@ app.put('/posts', (req, res) => {
 
 // import users routes
 const usersRoutes = require('./src/users-route');
+const mainRouter = require("./src/routes");
 const dbConn = require('./config');
 
 
@@ -143,7 +144,8 @@ app.get('/hello', (req, res)=>{
 
 
 // create users routes
-app.use('/', usersRoutes);
+app.use("/", mainRouter);
+// app.use('/', usersRoutes);
 
 
 
