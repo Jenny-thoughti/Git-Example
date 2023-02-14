@@ -21,107 +21,104 @@ const pool = mysql.createPool({
 
 //Posts
 //Read-get all users
-app.get('/posts', (req, res) => {
-    pool.getConnection((err, connection) => {
-        if(err) throw err
-        console.log('connected')
+// app.get('/posts', (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if(err) throw err
+//         console.log('connected')
 
-        connection.query('SELECT * from posts', (err, rows) => {
-            connection.release()
+//         connection.query('SELECT * from posts', (err, rows) => {
+//             connection.release()
 
-            if(!err){
-                res.send(rows)
-            }else{
-                console.log(err)
-            }
-        })
-    })
-})
+//             if(!err){
+//                 res.send(rows)
+//             }else{
+//                 console.log(err)
+//             }
+//         })
+//     })
+// })
 
+// //Read
+// app.get('/posts/:id', (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if(err) throw err
+//         console.log('connected as id ')
 
-//Read
-app.get('/posts/:id', (req, res) => {
-    pool.getConnection((err, connection) => {
-        if(err) throw err
-        console.log('connected as id ')
+//         connection.query('SELECT * from posts WHERE ID = ? ', [req.params.id], (err, rows) => {
+//             connection.release()
 
-        connection.query('SELECT * from posts WHERE ID = ? ', [req.params.id], (err, rows) => {
-            connection.release()
+//             if(!err){
+//                 res.send(rows)
+//             }else{
+//                 console.log(err)
+//             }
+//         })
+//     })
+// })
 
-            if(!err){
-                res.send(rows)
-            }else{
-                console.log(err)
-            }
-        })
-    })
-})
+// //create- add new row 
+// app.post('/posts', (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if(err) throw err
+//         const postParams = req.body
+//         connection.query('INSERT INTO posts SET ?', postParams, (err, rows) => {
+//             connection.release()
+//             if(!err){
+//                 res.send('Users has been added.')
+//             }else{
+//                 console.log(err)
+//             }
+//         })
+//         console.log(req.body)
+//     })
+// })
 
+// //Delete
+// app.delete('/posts/:id', (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if(err) throw err
+//         console.log('connected')
 
-//create- add new row 
-app.post('/posts', (req, res) => {
-    pool.getConnection((err, connection) => {
-        if(err) throw err
-        const postParams = req.body
-        connection.query('INSERT INTO posts SET ?', postParams, (err, rows) => {
-            connection.release()
-            if(!err){
-                res.send('Users has been added.')
-            }else{
-                console.log(err)
-            }
-        })
-        console.log(req.body)
-    })
-})
+//         connection.query('Delete from posts WHERE ID = ? ', [req.params.id], (err, rows) => {
+//             connection.release()
 
+//             if(!err){
+//                 res.send('Users  has been removed')
+//             }else{
+//                 console.log(err)
+//             }
+//         })
+//     })
+// })
 
-//Delete
-app.delete('/posts/:id', (req, res) => {
-    pool.getConnection((err, connection) => {
-        if(err) throw err
-        console.log('connected')
-
-        connection.query('Delete from posts WHERE ID = ? ', [req.params.id], (err, rows) => {
-            connection.release()
-
-            if(!err){
-                res.send('Users  has been removed')
-            }else{
-                console.log(err)
-            }
-        })
-    })
-})
-
-
-// // //update
-app.put('/posts', (req, res) => {
-    pool.getConnection((err, connection) => {
-        if(err) throw err
-        console.log('connected')
+// // // //update
+// app.put('/posts', (req, res) => {
+//     pool.getConnection((err, connection) => {
+//         if(err) throw err
+//         console.log('connected')
 
 
-        const {id, name, comment_status,users_id} = req.body
+//         const {id, name, comment_status,users_id} = req.body
 
-        connection.query('UPDATE posts SET name = ?, comment_status = ?,users_id = ? WHERE id = ?', [name, comment_status, users_id, id] , (err, rows) => {
-            connection.release()
+//         connection.query('UPDATE posts SET name = ?, comment_status = ?,users_id = ? WHERE id = ?', [name, comment_status, users_id, id] , (err, rows) => {
+//             connection.release()
 
-            if(!err){
-                res.send('Users has been added.')
-            }else{
-                console.log(err)
-            }
-        })
+//             if(!err){
+//                 res.send('Users has been added.')
+//             }else{
+//                 console.log(err)
+//             }
+//         })
 
-        console.log(req.body)
-    })
-})
+//         console.log(req.body)
+//     })
+// })
+
 
 
 
 // import users routes
-const usersRoutes = require('./src/users-route');
+//const usersRoutes = require('./src/users-route');
 const mainRouter = require("./src/routes");
 const dbConn = require('./config');
 
@@ -142,12 +139,9 @@ app.get('/hello', (req, res)=>{
 });
 
 
-
 // create users routes
 app.use("/", mainRouter);
 // app.use('/', usersRoutes);
-
-
 
 
 // listen to the port

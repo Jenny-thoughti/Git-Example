@@ -23,13 +23,46 @@ Users.getAllUsers = (result) =>{
 Users.getUsersByID = (id, result)=>{
     dbConn.query('SELECT * FROM users WHERE id=?', id, (err, res)=>{
         if(err){
+            console.log(err);
             console.log('Error while fetching users by id', err);
-            result(null, err);
+            result.status(400)
         }else{
             result(null, res);
-        }
+        };
+       
     })
 }
+
+// Users.getUsersByID = (id, response)=>{
+//     dbConn.query('SELECT * FROM users WHERE id = ?', [id], (error, results)=>{
+//         if(){
+//            throw error
+//         }
+//         response(results)
+      
+//     })
+// }
+
+
+// Users.getUsersByID = (request, response) => {
+//     const id = parseInt(request.params.id)
+  
+//     dbConn.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+//       if (error) {
+//         throw error
+//       }
+//       response.status(200).json(results.rows)
+//     })
+//   }
+
+// Users.getUsersByID = (id) => {
+//     return User.findById(id).then((result) => {
+//         result = result.toJSON();
+//         return result;
+//     });
+// };
+
+
 
 // create new users
 Users.createUsers = (usersReqData, result) =>{
@@ -63,6 +96,7 @@ Users.deleteUsers = (id, result)=>{
      dbConn.query('DELETE FROM users WHERE id=?', [id], (err, res)=>{
          if(err){
             console.log('Error while deleting the users');
+            console.log(err);
              result(null, err);
          }else{
             result(null, res);
