@@ -1,6 +1,7 @@
 const express = require("express");
 
 const userRoutes = require("./users.route");
+const postRoutes = require("./posts.route");
 
 const router = express.Router();
 
@@ -10,6 +11,6 @@ const router = express.Router();
 router.use("/users", userRoutes);
 
 //Posts
-
+router.use("/posts", postRoutes);
 
 module.exports = router;

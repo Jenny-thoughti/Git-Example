@@ -33,34 +33,7 @@ Users.getUsersByID = (id, result)=>{
     })
 }
 
-// Users.getUsersByID = (id, response)=>{
-//     dbConn.query('SELECT * FROM users WHERE id = ?', [id], (error, results)=>{
-//         if(){
-//            throw error
-//         }
-//         response(results)
-      
-//     })
-// }
 
-
-// Users.getUsersByID = (request, response) => {
-//     const id = parseInt(request.params.id)
-  
-//     dbConn.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
-//       if (error) {
-//         throw error
-//       }
-//       response.status(200).json(results.rows)
-//     })
-//   }
-
-// Users.getUsersByID = (id) => {
-//     return User.findById(id).then((result) => {
-//         result = result.toJSON();
-//         return result;
-//     });
-// };
 
 
 
