@@ -1,5 +1,7 @@
 # GIT Tutorial
 
+## Add `.env` file using `.env.example` file
+
 ## Install npm packages
 
 ```sh
