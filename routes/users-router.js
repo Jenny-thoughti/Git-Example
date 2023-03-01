@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const usersControllers = require('../controllers/usersController');
+const usersControllers = require('../controllers/users-controller');
 
 const router = Router();
 
@@ -8,8 +8,6 @@ router.get('/scopes', usersControllers.scopes);
 router.get('/', usersControllers.getAllUsers);
 
 router.get('/:id', usersControllers.getById);
-
-// router.get('/status/scopes', usersControllers.scopes);
 
 router.post('/', usersControllers.addUser);
 

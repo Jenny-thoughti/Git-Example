@@ -9,22 +9,26 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      first_name: Sequelize.STRING,
-      last_name: Sequelize.STRING,
+      first_name: {
+        type: Sequelize.STRING,
+        required: true,
+        allowNull: false,
+      },
+      last_name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       email: {
         type: Sequelize.STRING,
-        allowNull: true,
-        defaultValue: null,
+        allowNull: false,
       },
       user_name: {
         type: Sequelize.STRING,
-        allowNull: true,
-        defaultValue: null,
+        allowNull: false,
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: true,
-        defaultValue: null,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -37,13 +41,11 @@ module.exports = {
         defaultValue: null,
       },
       role: {
-        // eslint-disable-next-line new-cap
         type: Sequelize.ENUM('Admin', 'User'),
         defaultValue: 'User',
         comment: 'Admin; User',
       },
       status: {
-        // eslint-disable-next-line new-cap
         type: Sequelize.ENUM('0', '1'),
         defaultValue: '1',
         comment: '0: Inactive; 1: Active',
@@ -53,7 +55,6 @@ module.exports = {
       },
     });
   },
-  // eslint-disable-next-line no-unused-vars
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('users');
   },

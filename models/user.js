@@ -12,21 +12,27 @@ module.exports = (sequelize, DataTypes) => {
           primaryKey: true,
           autoIncrement: true,
         },
-        first_name: DataTypes.STRING,
-        last_name: DataTypes.STRING,
+        first_name: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        last_name: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
         email: {
           type: DataTypes.STRING,
-          allowNull: true,
+          allowNull: false,
           defaultValue: null,
         },
         user_name: {
           type: DataTypes.STRING,
-          allowNull: true,
+          allowNull: false,
           defaultValue: null,
         },
         password: {
           type: DataTypes.STRING,
-          allowNull: true,
+          allowNull: false,
           defaultValue: null,
         },
         created_at: {
@@ -78,10 +84,10 @@ module.exports = (sequelize, DataTypes) => {
       },
   );
 
-  User.associate = function (models) {
+  User.associate = function(models) {
     models.User.hasMany(models.Post, {
-      foreignKey: "user_id",
-      targetKey: "id",
+      foreignKey: 'user_id',
+      targetKey: 'id',
     });
   };
   return User;

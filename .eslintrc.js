@@ -4,8 +4,7 @@ module.exports = {
     'commonjs': true,
     'es2021': true,
   },
-  'extends': 'prettier',
-  'plugins': ['prettier'],
+  'extends': 'google',
   'overrides': [
   ],
   'parserOptions': {
@@ -13,5 +12,8 @@ module.exports = {
   },
   'rules': {
     'linebreak-style': 0,
+    'camelcase': 'off',
+    'max-len': ['error', {'code': 150}],
+    'new-cap': 0,
   },
 };
