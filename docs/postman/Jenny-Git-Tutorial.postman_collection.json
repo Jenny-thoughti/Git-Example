@@ -1,0 +1,961 @@
+{
+	"info": {
+		"_postman_id": "8df808fc-952c-4868-91a8-c1a0744f1a4f",
+		"name": "Jenny-Git-Tutorial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "001-Get-All-Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "001-Get-All-Users-Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1699"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6a3-VhwpXIoaflAe6doMtrxSHkbaqVs\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 08:27:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"users\": {\n        \"count\": 8,\n        \"rows\": [\n            {\n                \"status\": \"active\",\n                \"id\": 1,\n                \"first_name\": \"Admin\",\n                \"last_name\": \"User\",\n                \"email\": \"admin@gmail.com\",\n                \"user_name\": \"admin\",\n                \"created_at\": \"2023-03-01T13:31:56.000Z\",\n                \"updated_at\": null,\n                \"role\": \"Admin\",\n                \"qualification\": \"MSC\"\n            },\n            {\n                \"status\": \"active\",\n                \"id\": 2,\n                \"first_name\": \"Test1\",\n                \"last_name\": \"User 1\",\n                \"email\": \"user1@gmail.com\",\n                \"user_name\": \"user1\",\n                \"created_at\": \"2023-03-01T13:31:56.000Z\",\n                \"updated_at\": null,\n                \"role\": \"User\",\n                \"qualification\": \"MCA\"\n            },\n            {\n                \"status\": \"active\",\n                \"id\": 3,\n                \"first_name\": \"Test2\",\n                \"last_name\": \"User 2\",\n                \"email\": \"user2@gmail.com\",\n                \"user_name\": \"user2\",\n                \"created_at\": \"2023-03-01T13:31:56.000Z\",\n                \"updated_at\": null,\n                \"role\": \"User\",\n                \"qualification\": \"BE\"\n            },\n            {\n                \"status\": \"inactive\",\n                \"id\": 4,\n                \"first_name\": \"Test3\",\n                \"last_name\": \"User 3\",\n                \"email\": \"user3@gmail.com\",\n                \"user_name\": \"user3\",\n                \"created_at\": \"2023-03-01T13:31:56.000Z\",\n                \"updated_at\": null,\n                \"role\": \"User\",\n                \"qualification\": \"ME\"\n            },\n            {\n                \"status\": \"inactive\",\n                \"id\": 5,\n                \"first_name\": \"Test4\",\n                \"last_name\": \"User 4\",\n                \"email\": \"user4@gmail.com\",\n                \"user_name\": \"user4\",\n                \"created_at\": \"2023-03-01T13:31:57.000Z\",\n                \"updated_at\": null,\n                \"role\": \"User\",\n                \"qualification\": \"BCOM\"\n            },\n            {\n                \"id\": 6,\n                \"first_name\": \"Test1\",\n                \"last_name\": \"User 1\",\n                \"email\": \"user1@gmail.com\",\n                \"user_name\": \"user1\",\n                \"created_at\": \"2023-03-01T08:15:11.000Z\",\n                \"updated_at\": null,\n                \"role\": \"Admin\",\n                \"qualification\": \"MSC\"\n            },\n            {\n                \"status\": \"active\",\n                \"id\": 7,\n                \"first_name\": \"Test1\",\n                \"last_name\": \"User 1\",\n                \"email\": \"user1@gmail.com\",\n                \"user_name\": \"user1\",\n                \"created_at\": \"2023-03-01T08:15:11.000Z\",\n                \"updated_at\": null,\n                \"role\": \"Admin\",\n                \"qualification\": \"MSC\"\n            },\n            {\n                \"status\": \"active\",\n                \"id\": 8,\n                \"first_name\": \"asd\",\n                \"last_name\": \"asd\",\n                \"email\": \"asd@asd.asd\",\n                \"user_name\": \"asd\",\n                \"created_at\": \"2023-03-01T08:15:11.000Z\",\n                \"updated_at\": \"2023-03-01T08:22:06.000Z\",\n                \"role\": \"User\",\n                \"qualification\": \"asd\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "002-Create-New-User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"asd\",\r\n    \"last_name\": \"asd\",\r\n    \"email\": \"asd@asd.asd\",\r\n    \"user_name\": \"asd\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"user\",\r\n    \"status\": \"1\",\r\n    \"qualification\": \"asd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "002-Create-New-User-Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\": \"asd\",\r\n    \"last_name\": \"asd\",\r\n    \"email\": \"asd@asd.asd\",\r\n    \"user_name\": \"asd\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"user\",\r\n    \"status\": \"1\",\r\n    \"qualification\": \"asd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "266"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10a-oDGzIC5JBNkRe187jrI9IltzboY\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 08:31:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"active\",\n    \"created_at\": \"2023-03-01 13:45:11\",\n    \"updated_at\": null,\n    \"id\": 9,\n    \"first_name\": \"asd\",\n    \"last_name\": \"asd\",\n    \"email\": \"asd@asd.asd\",\n    \"user_name\": \"asd\",\n    \"password\": \"$2b$12$lmLHk.D5BTHrz7MINglI2uqSKuBW.8QkpePkcMqpmWy3JTGkExFiu\",\n    \"role\": \"user\",\n    \"qualification\": \"asd\"\n}"
+						}
+					]
+				},
+				{
+					"name": "003-Get-User-By-Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "003-Get-User-By-Id-Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/users/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "291"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"123-INIdmdtG5jmuycy7BonAEMoT5ZA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 08:28:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"users\": {\n        \"status\": \"active\",\n        \"id\": 1,\n        \"first_name\": \"Admin\",\n        \"last_name\": \"User\",\n        \"email\": \"admin@gmail.com\",\n        \"user_name\": \"admin\",\n        \"password\": \"$2b$12$kGPMvdjNiZvGRKTN8maF6OIqxsZxScoM0BWJzlttXXB4FyxebyYf6\",\n        \"created_at\": \"2023-03-01T13:31:56.000Z\",\n        \"updated_at\": null,\n        \"role\": \"Admin\",\n        \"qualification\": \"MSC\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "004-Update-User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"asd\",\r\n    \"last_name\": \"asd\",\r\n    \"email\": \"asd@asd.asd\",\r\n    \"user_name\": \"asd\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"user\",\r\n    \"status\": \"1\",\r\n    \"qualification\": \"asd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"8"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "004-Update-User-Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\": \"asd\",\r\n    \"last_name\": \"asd\",\r\n    \"email\": \"asd@asd.asd\",\r\n    \"user_name\": \"asd\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"user\",\r\n    \"status\": \"1\",\r\n    \"qualification\": \"asd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/users/8",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"users",
+										"8"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3-9imuRLez3P7URNNj5ibt9BHsaag\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 08:33:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    1\n]"
+						}
+					]
+				},
+				{
+					"name": "005-Delete-User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"9"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "005-Delete-User-Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/users/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "291"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"123-INIdmdtG5jmuycy7BonAEMoT5ZA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 08:28:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"users\": {\n        \"status\": \"active\",\n        \"id\": 1,\n        \"first_name\": \"Admin\",\n        \"last_name\": \"User\",\n        \"email\": \"admin@gmail.com\",\n        \"user_name\": \"admin\",\n        \"password\": \"$2b$12$kGPMvdjNiZvGRKTN8maF6OIqxsZxScoM0BWJzlttXXB4FyxebyYf6\",\n        \"created_at\": \"2023-03-01T13:31:56.000Z\",\n        \"updated_at\": null,\n        \"role\": \"Admin\",\n        \"qualification\": \"MSC\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "006-Get-All-Active-Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users/scopes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"scopes"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "001-Get-All-Users-Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1699"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6a3-VhwpXIoaflAe6doMtrxSHkbaqVs\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 08:27:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"users\": {\n        \"count\": 8,\n        \"rows\": [\n            {\n                \"status\": \"active\",\n                \"id\": 1,\n                \"first_name\": \"Admin\",\n                \"last_name\": \"User\",\n                \"email\": \"admin@gmail.com\",\n                \"user_name\": \"admin\",\n                \"created_at\": \"2023-03-01T13:31:56.000Z\",\n                \"updated_at\": null,\n                \"role\": \"Admin\",\n                \"qualification\": \"MSC\"\n            },\n            {\n                \"status\": \"active\",\n                \"id\": 2,\n                \"first_name\": \"Test1\",\n                \"last_name\": \"User 1\",\n                \"email\": \"user1@gmail.com\",\n                \"user_name\": \"user1\",\n                \"created_at\": \"2023-03-01T13:31:56.000Z\",\n                \"updated_at\": null,\n                \"role\": \"User\",\n                \"qualification\": \"MCA\"\n            },\n            {\n                \"status\": \"active\",\n                \"id\": 3,\n                \"first_name\": \"Test2\",\n                \"last_name\": \"User 2\",\n                \"email\": \"user2@gmail.com\",\n                \"user_name\": \"user2\",\n                \"created_at\": \"2023-03-01T13:31:56.000Z\",\n                \"updated_at\": null,\n                \"role\": \"User\",\n                \"qualification\": \"BE\"\n            },\n            {\n                \"status\": \"inactive\",\n                \"id\": 4,\n                \"first_name\": \"Test3\",\n                \"last_name\": \"User 3\",\n                \"email\": \"user3@gmail.com\",\n                \"user_name\": \"user3\",\n                \"created_at\": \"2023-03-01T13:31:56.000Z\",\n                \"updated_at\": null,\n                \"role\": \"User\",\n                \"qualification\": \"ME\"\n            },\n            {\n                \"status\": \"inactive\",\n                \"id\": 5,\n                \"first_name\": \"Test4\",\n                \"last_name\": \"User 4\",\n                \"email\": \"user4@gmail.com\",\n                \"user_name\": \"user4\",\n                \"created_at\": \"2023-03-01T13:31:57.000Z\",\n                \"updated_at\": null,\n                \"role\": \"User\",\n                \"qualification\": \"BCOM\"\n            },\n            {\n                \"id\": 6,\n                \"first_name\": \"Test1\",\n                \"last_name\": \"User 1\",\n                \"email\": \"user1@gmail.com\",\n                \"user_name\": \"user1\",\n                \"created_at\": \"2023-03-01T08:15:11.000Z\",\n                \"updated_at\": null,\n                \"role\": \"Admin\",\n                \"qualification\": \"MSC\"\n            },\n            {\n                \"status\": \"active\",\n                \"id\": 7,\n                \"first_name\": \"Test1\",\n                \"last_name\": \"User 1\",\n                \"email\": \"user1@gmail.com\",\n                \"user_name\": \"user1\",\n                \"created_at\": \"2023-03-01T08:15:11.000Z\",\n                \"updated_at\": null,\n                \"role\": \"Admin\",\n                \"qualification\": \"MSC\"\n            },\n            {\n                \"status\": \"active\",\n                \"id\": 8,\n                \"first_name\": \"asd\",\n                \"last_name\": \"asd\",\n                \"email\": \"asd@asd.asd\",\n                \"user_name\": \"asd\",\n                \"created_at\": \"2023-03-01T08:15:11.000Z\",\n                \"updated_at\": \"2023-03-01T08:22:06.000Z\",\n                \"role\": \"User\",\n                \"qualification\": \"asd\"\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "006-Get-All-Active-Users-Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/users/scopes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"users",
+										"scopes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "645"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"285-oeriVA36aN8lo/AF5VfrBj24lIs\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 09:44:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 3,\n    \"rows\": [\n        {\n            \"status\": \"active\",\n            \"id\": 1,\n            \"first_name\": \"Admin\",\n            \"last_name\": \"User\",\n            \"email\": \"admin@gmail.com\",\n            \"user_name\": \"admin\",\n            \"created_at\": \"2023-03-01T15:12:08.000Z\",\n            \"updated_at\": null,\n            \"role\": \"Admin\",\n            \"qualification\": \"MSC\"\n        },\n        {\n            \"status\": \"active\",\n            \"id\": 2,\n            \"first_name\": \"Test1\",\n            \"last_name\": \"User 1\",\n            \"email\": \"user1@gmail.com\",\n            \"user_name\": \"user1\",\n            \"created_at\": \"2023-03-01T15:12:08.000Z\",\n            \"updated_at\": null,\n            \"role\": \"User\",\n            \"qualification\": \"MCA\"\n        },\n        {\n            \"status\": \"active\",\n            \"id\": 3,\n            \"first_name\": \"Test2\",\n            \"last_name\": \"User 2\",\n            \"email\": \"user2@gmail.com\",\n            \"user_name\": \"user2\",\n            \"created_at\": \"2023-03-01T15:12:09.000Z\",\n            \"updated_at\": null,\n            \"role\": \"User\",\n            \"qualification\": \"BE\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "001-Get-All-Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/posts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "001-Get-All-Posts-Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/posts",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"posts"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1172"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"494-pAcsHlQ4DtpS2oJh0DLu6e0Oby0\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 08:36:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"posts\": {\n        \"count\": 5,\n        \"rows\": [\n            {\n                \"id\": 1,\n                \"name\": \"User1.\",\n                \"comment_status\": \"Completed\",\n                \"user_id\": 1,\n                \"created_at\": \"2023-03-01T13:31:57.000Z\",\n                \"updated_at\": null,\n                \"User\": {\n                    \"id\": 1,\n                    \"first_name\": \"Admin\",\n                    \"last_name\": \"User\",\n                    \"email\": \"admin@gmail.com\",\n                    \"qualification\": \"MSC\"\n                }\n            },\n            {\n                \"id\": 2,\n                \"name\": \"User1.\",\n                \"comment_status\": \"Process\",\n                \"user_id\": 1,\n                \"created_at\": \"2023-03-01T13:31:57.000Z\",\n                \"updated_at\": null,\n                \"User\": {\n                    \"id\": 1,\n                    \"first_name\": \"Admin\",\n                    \"last_name\": \"User\",\n                    \"email\": \"admin@gmail.com\",\n                    \"qualification\": \"MSC\"\n                }\n            },\n            {\n                \"id\": 3,\n                \"name\": \"User2\",\n                \"comment_status\": \"Almost Done\",\n                \"user_id\": 5,\n                \"created_at\": \"2023-03-01T13:31:57.000Z\",\n                \"updated_at\": null,\n                \"User\": {\n                    \"id\": 5,\n                    \"first_name\": \"Test4\",\n                    \"last_name\": \"User 4\",\n                    \"email\": \"user4@gmail.com\",\n                    \"qualification\": \"BCOM\"\n                }\n            },\n            {\n                \"id\": 4,\n                \"name\": \"User3\",\n                \"comment_status\": \"Completed\",\n                \"user_id\": 3,\n                \"created_at\": \"2023-03-01T13:31:57.000Z\",\n                \"updated_at\": null,\n                \"User\": {\n                    \"id\": 3,\n                    \"first_name\": \"Test2\",\n                    \"last_name\": \"User 2\",\n                    \"email\": \"user2@gmail.com\",\n                    \"qualification\": \"BE\"\n                }\n            },\n            {\n                \"id\": 5,\n                \"name\": \"User4\",\n                \"comment_status\": \"Completed\",\n                \"user_id\": 4,\n                \"created_at\": \"2023-03-01T13:31:57.000Z\",\n                \"updated_at\": null,\n                \"User\": {\n                    \"id\": 4,\n                    \"first_name\": \"Test3\",\n                    \"last_name\": \"User 3\",\n                    \"email\": \"user3@gmail.com\",\n                    \"qualification\": \"ME\"\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "002-Create-New-Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Post\",\r\n    \"comment_status\": \"Completed\",\r\n    \"user_id\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/posts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "002-Create-New-Post-Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Test Post\",\r\n    \"comment_status\": \"Completed\",\r\n    \"user_id\": \"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/posts",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"posts"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "123"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7b-u3zwOduJw3dOcghBoA+Rkwgd+tM\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 08:38:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"created_at\": \"2023-03-01 13:45:11\",\n    \"updated_at\": null,\n    \"id\": 6,\n    \"name\": \"Test Post\",\n    \"comment_status\": \"Completed\",\n    \"user_id\": \"1\"\n}"
+						}
+					]
+				},
+				{
+					"name": "003-Get-Post-By-Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/posts/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"posts",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "003-Get-Post-By-Id-Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/posts/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"posts",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "237"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ed-AbRbxUo0hQUF9flyGiZK3OROd+g\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 08:39:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"posts\": {\n        \"id\": 1,\n        \"name\": \"User1.\",\n        \"comment_status\": \"Completed\",\n        \"user_id\": 1,\n        \"created_at\": \"2023-03-01T13:31:57.000Z\",\n        \"updated_at\": null,\n        \"User\": {\n            \"id\": 1,\n            \"first_name\": \"Admin\",\n            \"last_name\": \"User\",\n            \"email\": \"admin@gmail.com\",\n            \"qualification\": \"MSC\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "004-Update-Post",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test Post 1\",\r\n    \"comment_status\": \"Process\",\r\n    \"user_id\": \"3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/posts/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"posts",
+								"6"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "004-Update-Post-Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Test Post 1\",\r\n    \"comment_status\": \"Process\",\r\n    \"user_id\": \"3\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/posts/6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"posts",
+										"6"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3-9imuRLez3P7URNNj5ibt9BHsaag\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 08:39:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    1\n]"
+						}
+					]
+				},
+				{
+					"name": "005-Delete-Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/posts/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"posts",
+								"6"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "005-Delete-Post-Response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/posts/6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"posts",
+										"6"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "18"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"12-G9tMru6yf6g3pxx9ICLq1GFiIGQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 Mar 2023 08:40:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Posts is deleted !"
+						}
+					]
+				}
+			]
+		}
+	]
+}

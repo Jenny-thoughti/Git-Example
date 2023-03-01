@@ -1,21 +1,20 @@
 {
-  "name": "modify",
+  "name": "git-tutorial",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node ./app.js",
-    "dev": "nodemon ./app.js",
-    "lint": "eslint --fix ./*.js",
-    "test": "npx sequelize-cli db:create ",
-    "migrate": "npm run migrate:up",
-    "undo": "npm run migrate:down",
-    "seeder": "npm run migrate:seed",
-    "reset": "npm run reset-db",
-    "reset-db": " sequelize db:drop",
-    "migrate:up": "sequelize db:migrate",
-    "migrate:seed": "sequelize db:seed:all",
-    "migrate:down": "sequelize db:migrate:undo:all"
+    "dev": "nodemon -r dotenv/config ./app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "migrate": "npm run migrate:u && npm run migrate:s",
+    "migrate:dus": "npm run migrate:d && npm run migrate:u && npm run migrate:s",
+    "migrate:u": "sequelize db:migrate --debug",
+    "migrate:s": "sequelize db:seed:all --debug",
+    "migrate:d": "sequelize db:migrate:undo:all --debug",
+    "migrate:reset-db": "sequelize db:drop --debug && sequelize db:create --debug"
   },
   "keywords": [],
   "author": "",
@@ -25,12 +24,12 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mysql2": "^3.1.2",
-    "sequelize": "^6.29.0"
+    "sequelize": "^6.29.0",
+    "sequelize-cli": "^6.6.0"
   },
   "devDependencies": {
     "eslint": "^8.34.0",
     "eslint-config-google": "^0.14.0",
-    "nodemon": "^2.0.20",
-    "sequelize-cli": "^6.6.0"
+    "nodemon": "^2.0.20"
   }
 }
