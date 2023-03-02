@@ -11,12 +11,15 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       comment_status: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       user_id: {
         type: Sequelize.BIGINT,
+        allowNull: false,
         references: {
           model: 'users',
           key: 'id',

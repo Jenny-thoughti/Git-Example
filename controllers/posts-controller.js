@@ -2,6 +2,7 @@ const models = require('../models');
 const Users = models.User;
 const Posts = models.Post;
 const moment = require('moment');
+const {validationResult} = require('express-validator');
 
 
 //  get all posts and include users
@@ -25,79 +26,124 @@ const getAllPosts = async (req, res, err) => {
 };
 
 
-//  get by id
-const getById = async (req, res, err) => {
+// get by id
+const getById = async (req, res, next) => {
   try {
-    const id = req.params.id;
-    if (id <= 0) {
-      res.status(404).send('No Posts');
-    }
+    const id = parseInt(req.params.id, 10);
     const includeUsers = [
       {
         model: Users,
-        attributes: ['first_name', 'last_name', 'email', 'qualification'],
+        attributes: ['id', 'first_name', 'last_name', 'email', 'qualification'],
       },
     ];
-    const allPosts = await Posts.findByPk(id, {
+    const postData = await Posts.findByPk(id, {
+      attributes: [
+        'id',
+        'name',
+        'comment_status',
+        'user_id',
+        'created_at',
+        'updated_at',
+      ],
       include: includeUsers,
     });
+    if (postData == null) {
+      return res.status(404).send('No data found');
+    }
 
-    return res.status(200).json({
-      'posts': allPosts,
+    return res.status(200).send({
+      'post': postData,
     });
-  } catch (error) {
-    return res.status(404).send(error.message);
+  } catch (err) {
+    return res.status(500).send(err.message);
   }
 };
 
 
-//  create
-const addPosts = async (req, res) => {
+// create
+const addPosts = async (req, res, next) => {
   try {
-    const info = {
-      name: req.body.name,
-      comment_status: req.body.comment_status,
-      user_id: req.body.user_id,
-    };
+    const errors = validationResult(req);
+    // if there is error then return Error
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array(),
+      });
+    }
+    // name already exists
+    const postExists = await Posts.findOne({
+      where: {name: req.body.name},
+    });
+    if (postExists != null) {
+      return res.status(404).send('Post with same name already exists');
+    }
 
-    const posts = await Posts.create(info);
+    const {name, comment_status, user_id} = req.body;
+    const data = {name, comment_status, user_id};
 
-    res.status(200).send({'posts': posts});
-  } catch (error) {
-    return res.status(500).send(error.message);
+    const postCreate = await Posts.create(data);
+    res.status(200).json({'posts': postCreate});
+  } catch (err) {
+    return res.status(500).send(err.message);
   }
 };
+
 
 //  Update
 const updatePosts = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    // if there is error then return Error
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array(),
+      });
+    }
+    // already exits
+    const postExists = await Posts.findOne({
+      where: {name: req.body.name},
+    });
+    if (postExists != null) {
+      return res.status(400).send('Post with same name already exists');
+    }
+
     const id = req.params.id;
     const {name, comment_status, user_id, created_at} = req.body;
     const date = await moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const info = {name, comment_status, user_id, created_at, updated_at: date};
 
-    const posts = await Posts.update(info, {where: {id: id}});
-    res.status(200).send(posts);
-  } catch (error) {
-    return res.status(500).send(error.message);
+    await Posts.update(info, {where: {
+      id: id}}).then((count) => {
+      if (!count) {
+        return res.status(404).send({error: 'No Posts'});
+      }
+      res.status(200).send({'msg': 'updated'});
+    });
+  } catch (err) {
+    return res.status(500).send(err.message);
   }
 };
+
 
 // delete
 const deletePosts = async (req, res) => {
   try {
     const id = req.params.id;
-    await Posts.destroy({where: {id: id}});
-    res.status(200).send('Posts is deleted !');
-  } catch (error) {
-    if (error) {
-      if (Posts.length <= 0) {
-        return res.status(404).send('Posts not found');
+    await Posts.destroy({
+      where: {
+        id: id}}).then((count) => {
+      if (!count) {
+        return res.status(404).send({error: 'No Posts'});
       }
-    }
-    return res.status(500).send(error.message);
+      res.status(200).send('Post is deleted');
+    });
+  } catch (err) {
+    return res.status(500).send(err.message);
   }
 };
+
 
 module.exports = {
   getAllPosts,

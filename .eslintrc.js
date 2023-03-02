@@ -13,7 +13,7 @@ module.exports = {
   'rules': {
     'linebreak-style': 0,
     'camelcase': 'off',
-    'max-len': ['error', {'code': 150}],
+    'max-len': ['error', {'code': 200}],
     'new-cap': 0,
   },
 };

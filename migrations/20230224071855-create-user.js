@@ -29,6 +29,7 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
         allowNull: false,
+        notNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -52,6 +53,7 @@ module.exports = {
       },
       qualification: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
     });
   },

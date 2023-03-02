@@ -7,6 +7,7 @@ const app = express();
 
 app.use(express.json());
 
+
 // Routes
 const mainRouter = require('./routes');
 app.use('/', mainRouter);

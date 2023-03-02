@@ -1,6 +1,4 @@
-/* eslint-disable max-len */
 'use strict';
-//  eslint new-cap: ["error", { "newIsCap": false }]
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');

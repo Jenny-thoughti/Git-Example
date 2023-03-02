@@ -11,9 +11,13 @@ module.exports = (sequelize, DataTypes) => {
           primaryKey: true,
           autoIncrement: true,
         },
-        name: DataTypes.STRING,
+        name: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
         comment_status: {
           type: DataTypes.STRING,
+          allowNull: false,
         },
         user_id: {
           type: DataTypes.BIGINT(20),

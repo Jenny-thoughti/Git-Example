@@ -1,6 +1,5 @@
 'use strict';
 
-
 const moment = require('moment');
 
 module.exports = (sequelize, DataTypes) => {
@@ -77,7 +76,7 @@ module.exports = (sequelize, DataTypes) => {
           },
           checkStatus: {
             where: {
-              status: '1',
+              status: ['1', '0'],
             },
           },
         },
