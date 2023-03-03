@@ -48,7 +48,7 @@ const getById = async (req, res, next) => {
       include: includeUsers,
     });
     if (postData == null) {
-      return res.status(404).send('No data found');
+      return res.status(404).send({'posts': 'No data found'});
     }
 
     return res.status(200).send({
@@ -71,6 +71,7 @@ const addPosts = async (req, res, next) => {
         errors: errors.array(),
       });
     }
+
     // name already exists
     const postExists = await Posts.findOne({
       where: {name: req.body.name},
@@ -114,10 +115,11 @@ const updatePosts = async (req, res) => {
     const date = await moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const info = {name, comment_status, user_id, created_at, updated_at: date};
 
-    await Posts.update(info, {where: {
-      id: id}}).then((count) => {
+    await Posts.update(info, {
+      where: {
+        id: id}}).then((count) => {
       if (!count) {
-        return res.status(404).send({error: 'No Posts'});
+        return res.status(404).send({'error': 'No Posts'});
       }
       res.status(200).send({'msg': 'updated'});
     });

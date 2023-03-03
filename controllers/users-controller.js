@@ -5,7 +5,6 @@ const BCRYPT_SALT_ROUNDS = 12;
 const moment = require('moment');
 const {validationResult} = require('express-validator');
 
-
 //  get all users
 const getAllUsers = async (req, res) => {
   try {
@@ -137,6 +136,7 @@ const deleteUsers = async (req, res) => {
     return res.status(500).send(error.message);
   }
 };
+
 
 module.exports = {
   getAllUsers,
