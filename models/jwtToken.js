@@ -11,6 +11,13 @@ module.exports = (sequelize, DataTypes) => {
           primaryKey: true,
           autoIncrement: true,
         },
+        user_id: {
+          type: DataTypes.BIGINT,
+          references: {
+            model: 'users',
+            key: 'id',
+          },
+        },
         token: DataTypes.TEXT('long'),
         createdAt: {
           type: DataTypes.DATE,
@@ -39,7 +46,10 @@ module.exports = (sequelize, DataTypes) => {
   );
   // eslint-disable-next-line no-unused-vars
   JwtToken.associate = function(models) {
-    // associations can be defined here
+    models.JwtToken.belongsTo(models.User, {
+      foreignKey: 'user_id',
+      targetKey: 'id',
+    });
   };
   return JwtToken;
 };

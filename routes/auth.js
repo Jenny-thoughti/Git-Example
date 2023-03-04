@@ -4,12 +4,15 @@ const router = express.Router();
 const {check, validationResult} = require('express-validator');
 const models = require('../models');
 const Users = models.User;
+const JwtToken = models.JwtToken;
 // const Models = require('../models');
-// const moment = require('moment');
+const moment = require('moment');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const jwtSecret = require('../config/jwtConfig');
 const {accessToken} = require('../validations/users-validation');
+// const bcrypt = require('bcrypt');
+// const authenticate = require('../middleware/auth-middleware');
 
 router.post(
     '/login',
@@ -61,76 +64,6 @@ router.post(
     },
 );
 
-// router.post('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {
-//   res.clearCookie('access_token');
-//   res.json({user: {user_name: '', role: ''}, success: true});
-// });
-
-
-// router.post('/logout', (req, res, next) => {
-//   // req.logout(function(err) {
-//   //   if (err) {
-//   //     return next(err);
-//   //   }
-//   //   res.redirect('/users');
-//   // });
-//   passport.authenticate('jwt', {session: false}, async (err, users, info) => {
-//     if (err) {
-//       return res.status(401).send(err);
-//     }
-//     const usersId = parseInt(req.body.user_id, 10);
-//     if (users.id === usersId) {
-//       const authorizationHeader = req.headers.authorization;
-//       const expiredJwtToken = authorizationHeader.split(' ')[1];
-//       const data = {
-//         token: expiredJwtToken,
-//         createdAt: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-//         updatedAt: null,
-//       };
-//       const jwtTokenExpired = models.JwtToken.create(data, {
-//         returning: true,
-//         plain: true,
-//       });
-//       console.log(req.body.id);
-//       return res.status(200).send('Log out successful', {jwtToken: jwtTokenExpired});
-//     }
-//     return res.status(401).send('User is not authenticated.');
-//   })(req, res, next);
-// });
-
-
-// router.post('/logout', (req, res, next) => {
-//   // eslint-disable-next-line consistent-return
-//   passport.authenticate('jwt', {session: false}, async (err, user, info) => {
-//     if (err) {
-//       return res.status(401).send({'error1': err});
-//     }
-//     if (info !== undefined) {
-//       return res.status(401).send({'error2': info.message});
-//     }
-//     const userId = parseInt(req.body.userId, 10);
-//     if (user.id === userId) {
-//       const authorizationHeader = req.headers.authorization;
-//       const expiredJwtToken = authorizationHeader.split(' ')[1];
-//       // const expiredJwtToken = 'Bearer';
-//       const data = {
-//         token: expiredJwtToken,
-//         createdAt: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-//         updatedAt: null,
-//         deletedAt: null,
-//         status: '0',
-//       };
-//       const jwtTokenExpired = Models.JwtToken.create(data, {
-//         returning: true,
-//         plain: true,
-//       });
-//       return res.status(200).send({jwtToken: jwtTokenExpired});
-//     }
-//     return res.status(401).send({'error3': 'User is not authenticated.'});
-//   })(req, res, next);
-// });
-// '$BiwK5D2JZK%K-iG_olJf5@7617Eu2Rx'
-
 
 // home
 router.get('/home', accessToken, (req, res)=> {
@@ -151,28 +84,60 @@ router.get('/home', accessToken, (req, res)=> {
 });
 
 
-// Verify Token
-// eslint-disable-next-line require-jsdoc
-// function accessToken(req, res, next) {
-//   // Auth header value = > send token into header
-
-//   const bearerHeader = req.headers['authorization'];
-//   // check if bearer is undefined
-//   if (typeof bearerHeader !== 'undefined') {
-//     // split the space at the bearer
-//     const bearer = bearerHeader.split(' ');
-//     // Get token from string
-//     const bearerToken = bearer[1];
-
-//     // set the token
-//     req.token = bearerToken;
-
-//     // next middleweare
-//     next();
-//   } else {
-//     // Fobidden
-//     res.sendStatus(403);
+// router.post('/logout', accessToken, async (req, res) => {
+//   try {
+//     const randomNumberToAppend = toString(Math.floor((Math.random() * 1000) + 1));
+//     // const randomIndex = Math.floor((Math.random() * 10) + 1);
+//     const hashedRandomNumberToAppend = await bcrypt.hash(randomNumberToAppend, 10);
+//     // now just concat the hashed random number to the end of the token
+//     req.token = req.token + hashedRandomNumberToAppend;
+//     return res.status(200).json('logout');
+//   } catch (err) {
+//     return res.status(500).json(err.message);
 //   }
-// }
+// });
 
+router.post('/logout', async (req, res, next) => {
+  // eslint-disable-next-line consistent-return
+  passport.authenticate('jwt', {session: false}, async (err, user, info) => {
+    if (err) {
+      return res.status(401).send({'error1': err});
+    }
+    if (info !== undefined) {
+      return res.status(401).send({'error2': info.message});
+    }
+    const userId =parseInt(req.body.id, 100);
+    console.log(user.id, userId);
+    if (user.id === 4 ) {
+      const authorizationHeader = req.headers.authorization;
+      const expiredJwtToken = authorizationHeader.split(' ')[1];
+      // const expiredJwtToken = 'Bearer';
+      const data = {
+        user_id: user.id,
+        token: expiredJwtToken,
+        createdAt: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+        updatedAt: null,
+        deletedAt: null,
+        status: '0',
+      };
+      console.log(data);
+      const jwtTokenExpired = await JwtToken.create(data);
+      return res.status(200).send({'jwtToken': jwtTokenExpired});
+    }
+    return res.status(401).send({'error3': 'User is not authenticated.'});
+  })(req, res, next);
+});
+
+
+// router.post('/logout', authenticate.auth, async (req, res) => {
+//   try {
+//     req.user.tokens = req.user.tokens.filter((token) =>{
+//       return token.token !== req.token;
+//     });
+//     await req.user.save();
+//     res.send();
+//   } catch (error) {
+//     res.status(500).send();
+//   }
+// });
 module.exports = router;

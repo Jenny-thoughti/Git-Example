@@ -8,6 +8,14 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
+      user_id: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+      },
       token: Sequelize.TEXT('long'),
       createdAt: {
         type: Sequelize.DATE,

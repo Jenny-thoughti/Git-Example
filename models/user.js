@@ -87,6 +87,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'user_id',
       targetKey: 'id',
     });
+    models.User.hasMany(models.JwtToken, {
+      foreignKey: 'user_id',
+      targetKey: 'id',
+    });
   };
   return User;
 };

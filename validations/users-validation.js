@@ -31,10 +31,8 @@ const userDataValidate = (req, res, next) => {
   next();
 };
 
-// eslint-disable-next-line require-jsdoc
-const accessToken = (req, res, next) => {
-  // Auth header value = > send token into header
 
+const accessToken = (req, res, next) => {
   const bearerHeader = req.headers['authorization'];
   // check if bearer is undefined
   if (typeof bearerHeader !== 'undefined') {
