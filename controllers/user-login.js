@@ -1,10 +1,6 @@
 const models = require('../models');
 const Users = models.User;
 const bcrypt = require('bcrypt');
-// const config = require('../config/auth-config.js');
-// const jwt = require('jsonwebtoken');
-// const express = require('express');
-// const session = require('express-session');
 const path = require('path');
 
 
@@ -35,19 +31,9 @@ const userAuth = async (req, res) => {
       });
     }
 
-    // const token = jwt.sign({id: user.id}, config.secret, {
-    //   expiresIn: 86400, // 24 hours
-    // });
-
     req.session.loggedin = true;
     req.session.user_name = user.user_name;
-    // req.session.token = token;
     return res.redirect('/home');
-    // return res.send({
-    //   id: user.id,
-    //   user_name: user.user_name,
-    //   email: user.email,
-    // });
   } catch (error) {
     return res.status(500).send({message: error.message});
   }
@@ -55,11 +41,8 @@ const userAuth = async (req, res) => {
 
 const home = async (req, res) => {
   if (req.session.loggedin) {
-  //   // Output username
     return res.sendFile(path.join(__dirname + '/home.html'));
-    // res.send('Welcome back, ' + req.session.user_name + '!');
   } else {
-    // Not logged in
     res.send('Please login to view this page!');
   }
 };
