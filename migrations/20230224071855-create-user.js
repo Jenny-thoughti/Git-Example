@@ -4,14 +4,12 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('users', {
       id: {
-        // eslint-disable-next-line new-cap
         type: Sequelize.BIGINT(20),
         primaryKey: true,
         autoIncrement: true,
       },
       first_name: {
         type: Sequelize.STRING,
-        required: true,
         allowNull: false,
       },
       last_name: {
@@ -54,6 +52,11 @@ module.exports = {
       qualification: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      access_token: {
+        type: Sequelize.TEXT('long'),
+        allowNull: null,
+        defaultValue: null,
       },
     });
   },

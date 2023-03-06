@@ -1,9 +1,12 @@
-const models = require('../models');
-const Users = models.User;
 const bcrypt = require('bcrypt');
-const BCRYPT_SALT_ROUNDS = 12;
 const moment = require('moment');
 const {validationResult} = require('express-validator');
+
+const models = require('../models');
+
+const Users = models.User;
+const BCRYPT_SALT_ROUNDS = 12;
+
 
 //  get all users
 const getAllUsers = async (req, res) => {
@@ -94,9 +97,8 @@ const updateUsers = async (req, res) => {
 
     // already exits
     const userExists = await Users.findOne({
-      where: {user_name: req.body.user_name},
-    }, {
-      where: {eamil: req.body.email},
+      where: {user_name: req.body.user_name,
+        email: req.body.email},
     });
     if (userExists != null) {
       return res.status(400).send('email or username already exists');
@@ -105,7 +107,7 @@ const updateUsers = async (req, res) => {
     const id = req.params.id;
     const {first_name, last_name, email, user_name, password, role, status, qualification} = req.body;
     const hash = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-    const date = await moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const info = {first_name, last_name, email, user_name, password: hash, role, status, qualification, updated_at: date};
 
     await Users.update(info, {where: {

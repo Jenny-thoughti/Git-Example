@@ -14,8 +14,9 @@ module.exports = {
         allowNull: false,
       },
       comment_status: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.ENUM('Closed', 'In Progress'),
+        defaultValue: 'In Progress',
+        comment: 'Closed, In Progress',
       },
       user_id: {
         type: Sequelize.BIGINT,

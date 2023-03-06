@@ -3,13 +3,14 @@ const express = require('express');
 const userRoutes = require('./users-router');
 const postRoutes = require('./posts-router');
 const authRouter = require('./auth');
-const loginRoutes = require('./login-router');
+
 
 const router = express.Router();
-// login
-router.use('/', authRouter);
+// login Rest Api
+router.use('/users', authRouter);
 
-router.use('/', loginRoutes);
+// Login View
+
 
 //  Users
 router.use('/users', userRoutes);

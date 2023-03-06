@@ -4,6 +4,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
+
 const User = require('../models').User;
 
 
@@ -53,10 +54,10 @@ passport.use(
           where: {
             id: jwtPayload.id,
           },
-        }).then((users) => {
-          if (users) {
+        }).then((user) => {
+          if (user) {
             const userData = {
-              id: users.id,
+              id: user.id,
             };
             done(null, userData);
           } else {
@@ -68,7 +69,6 @@ passport.use(
       }
     }),
 );
-
 passport.serializeUser(function(user, done) {
   done(null, user);
 });

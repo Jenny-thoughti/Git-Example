@@ -1,18 +1,16 @@
 const express = require('express');
-const router = express.Router();
-
-const {check, validationResult} = require('express-validator');
-const models = require('../models');
-const Users = models.User;
-const JwtToken = models.JwtToken;
-// const Models = require('../models');
-const moment = require('moment');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const {check, validationResult} = require('express-validator');
+
+const models = require('../models');
 const jwtSecret = require('../config/jwtConfig');
 const {accessToken} = require('../validations/users-validation');
-// const bcrypt = require('bcrypt');
-// const authenticate = require('../middleware/auth-middleware');
+
+const Users = models.User;
+// const JwtToken = models.JwtToken;
+const router = express.Router();
+
 
 router.post(
     '/login',
@@ -48,15 +46,20 @@ router.post(
           }).then((users) => {
             const jwtData = {
               id: users.id,
-              first_name: users.first_name,
-              last_name: users.last_name,
-              email: users.email,
-              user_name: users.user_name,
               role: users.role,
+
             };
             const token = jwt.sign(jwtData, jwtSecret.secret, {
-              expiresIn: 60 * 15, // 15 Min
+              expiresIn: 60 * 30, // 15 Min
             });
+            //  Users.create({accessToken: token})
+            // const token = jwt.sign(jwtData, jwtSecret.secret, {
+            //   expiresIn: 60 * 15, // 15 Min
+            // });
+            // const access = {
+            //   access_token: users.access_token,
+            // };
+            Users.update({access_token: token}, {where: {id: users.id}});
             return res.status(200).send({auth: true, id: users.id, token});
           });
         });
@@ -68,76 +71,75 @@ router.post(
 // home
 router.get('/home', accessToken, (req, res)=> {
   jwt.verify(req.token, jwtSecret.secret, (err, users)=>{
+    if (err) {
+      console.log('error while verifying access token:', err);
+      return res.status(403).send(err);
+    }
+    console.log('testing: ', users);
     const authData = {
       id: users.id,
       role: users.role,
     };
-    if (err) {
-      res.status(403).send(err);
-    } else {
-      res.json({
-        message: 'Welcome to Profile',
-        userData: authData,
-      });
-    }
+    // const authorizationHeader = req.headers.authorization;
+    // const jwtToken = authorizationHeader.split(' ')[1];
+    // set access_token as null
+    // const data = {
+    //   access_token: jwtToken,
+    // };
+    // console.log(data);
+    res.json({
+      message: 'Welcome to Profile',
+      userData: authData,
+    });
   });
 });
 
 
-// router.post('/logout', accessToken, async (req, res) => {
-//   try {
-//     const randomNumberToAppend = toString(Math.floor((Math.random() * 1000) + 1));
-//     // const randomIndex = Math.floor((Math.random() * 10) + 1);
-//     const hashedRandomNumberToAppend = await bcrypt.hash(randomNumberToAppend, 10);
-//     // now just concat the hashed random number to the end of the token
-//     req.token = req.token + hashedRandomNumberToAppend;
-//     return res.status(200).json('logout');
-//   } catch (err) {
-//     return res.status(500).json(err.message);
-//   }
+// router.post('/logout', async (req, res, next) => {
+//   // eslint-disable-next-line consistent-return
+//   passport.authenticate('jwt', {session: false}, async (err, users, info) => {
+//     if (err) {
+//       return res.status(401).send({'error1': err});
+//     }
+//     if (info !== undefined) {
+//       return res.status(401).send({'error2': info.message});
+//     }
+//     // const userId =parseInt(req.body.id, 100);
+//     // console.log(user.id, userId);
+//     if (users.id) {
+//       const authorizationHeader = req.headers.authorization;
+//       const jwtToken = authorizationHeader.split(' ')[1];
+//       // set access_token as null
+//       Users.update({access_token: null}, {where: {id: users.id}});
+//       // const jwtTokenExpired = await JwtToken.create(data);
+//       return res.status(200).send({jwtToken}, 'logout');
+//     }
+//     return res.status(401).send({'error3': 'User is not authenticated.'});
+//   })(req, res, next);
 // });
 
-router.post('/logout', async (req, res, next) => {
+router.post('/logout', (req, res, next) => {
   // eslint-disable-next-line consistent-return
-  passport.authenticate('jwt', {session: false}, async (err, user, info) => {
+  passport.authenticate('jwt', {session: false}, async (err, users, info) => {
     if (err) {
-      return res.status(401).send({'error1': err});
+      return res.status(401).send(err);
     }
     if (info !== undefined) {
-      return res.status(401).send({'error2': info.message});
+      return res.status(401).send({'error': info.message});
     }
-    const userId =parseInt(req.body.id, 100);
-    console.log(user.id, userId);
-    if (user.id === 4 ) {
-      const authorizationHeader = req.headers.authorization;
-      const expiredJwtToken = authorizationHeader.split(' ')[1];
-      // const expiredJwtToken = 'Bearer';
-      const data = {
-        user_id: user.id,
-        token: expiredJwtToken,
-        createdAt: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-        updatedAt: null,
-        deletedAt: null,
-        status: '0',
-      };
-      console.log(data);
-      const jwtTokenExpired = await JwtToken.create(data);
-      return res.status(200).send({'jwtToken': jwtTokenExpired});
+    // const authorizationHeader = req.headers.authorization;
+    // const jwtToken = authorizationHeader.split(' ')[1];
+    // if (users.accessToken == null) {
+    //   return res.status(400).send('null');
+    // }
+    // set access_token as null
+    if (users.id) {
+      // set access_token as null
+      Users.update({access_token: null}, {where: {id: users.id}});
+      return res.status(200).send('logout');
     }
-    return res.status(401).send({'error3': 'User is not authenticated.'});
+    return res.status(401).send('User is not authenticated');
   })(req, res, next);
 });
 
-
-// router.post('/logout', authenticate.auth, async (req, res) => {
-//   try {
-//     req.user.tokens = req.user.tokens.filter((token) =>{
-//       return token.token !== req.token;
-//     });
-//     await req.user.save();
-//     res.send();
-//   } catch (error) {
-//     res.status(500).send();
-//   }
-// });
 module.exports = router;

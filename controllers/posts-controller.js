@@ -1,8 +1,9 @@
+const moment = require('moment');
+const {validationResult} = require('express-validator');
+
 const models = require('../models');
 const Users = models.User;
 const Posts = models.Post;
-const moment = require('moment');
-const {validationResult} = require('express-validator');
 
 
 //  get all posts and include users
@@ -112,7 +113,7 @@ const updatePosts = async (req, res) => {
 
     const id = req.params.id;
     const {name, comment_status, user_id, created_at} = req.body;
-    const date = await moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const info = {name, comment_status, user_id, created_at, updated_at: date};
 
     await Posts.update(info, {

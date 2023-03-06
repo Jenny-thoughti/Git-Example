@@ -63,6 +63,10 @@ module.exports = (sequelize, DataTypes) => {
         qualification: {
           type: DataTypes.STRING,
         },
+        access_token: {
+          type: DataTypes.TEXT('long'),
+          allowNull: null,
+        },
       },
       {
         tableName: 'users',

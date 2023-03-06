@@ -16,12 +16,17 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
         },
         comment_status: {
-          type: DataTypes.STRING,
-          allowNull: false,
+          type: DataTypes.ENUM('Closed', 'In Progress'),
+          defaultValue: 'In Progress',
+          comment: 'Closed, In Progress',
         },
         user_id: {
           type: DataTypes.BIGINT(20),
           allowNull: false,
+          references: {
+            model: 'users',
+            key: 'id',
+          },
         },
         created_at: {
           type: DataTypes.DATE,
