@@ -9,9 +9,6 @@ const router = express.Router();
 // login Rest Api
 router.use('/users', authRouter);
 
-// Login View
-
-
 //  Users
 router.use('/users', userRoutes);
 

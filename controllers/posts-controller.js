@@ -7,7 +7,7 @@ const Posts = models.Post;
 
 
 //  get all posts and include users
-const getAllPosts = async (req, res, err) => {
+const getAllPosts = async (req, res) => {
   try {
     const includeUsers = [
       {
@@ -15,12 +15,12 @@ const getAllPosts = async (req, res, err) => {
         attributes: ['id', 'first_name', 'last_name', 'email', 'qualification'],
       },
     ];
-    const allPosts = await Posts.findAndCountAll({
-      include: includeUsers,
-    });
-    return res.status(200).json({
-      posts: allPosts,
-    });
+    const postsData = await Posts.count({});
+    if (postsData == 0) {
+      return res.status(404).send({'posts': 'No data found'});
+    }
+    const posts = await Posts.findAndCountAll({include: includeUsers});
+    res.status(200).json({posts});
   } catch (error) {
     return res.status(500).send(error.message);
   }
@@ -28,7 +28,7 @@ const getAllPosts = async (req, res, err) => {
 
 
 // get by id
-const getById = async (req, res, next) => {
+const getById = async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
     const includeUsers = [
@@ -62,7 +62,7 @@ const getById = async (req, res, next) => {
 
 
 // create
-const addPosts = async (req, res, next) => {
+const addPosts = async (req, res) => {
   try {
     const errors = validationResult(req);
     // if there is error then return Error
@@ -96,7 +96,6 @@ const addPosts = async (req, res, next) => {
 const updatePosts = async (req, res) => {
   try {
     const errors = validationResult(req);
-    // if there is error then return Error
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
@@ -140,7 +139,7 @@ const deletePosts = async (req, res) => {
       if (!count) {
         return res.status(404).send({error: 'No Posts'});
       }
-      res.status(200).send('Post is deleted');
+      res.status(200).send({'Posts': 'deleted'});
     });
   } catch (err) {
     return res.status(500).send(err.message);

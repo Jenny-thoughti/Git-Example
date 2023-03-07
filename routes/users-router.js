@@ -1,8 +1,7 @@
 const {Router} = require('express');
+
 const usersControllers = require('../controllers/users-controller');
 const {userDataValidate} = require('../validations/users-validation');
-
-
 const router = Router();
 
 

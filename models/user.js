@@ -77,6 +77,11 @@ module.exports = (sequelize, DataTypes) => {
               exclude: ['password'],
             },
           },
+          withoutToken: {
+            attributes: {
+              exclude: ['access_token'],
+            },
+          },
           checkStatus: {
             where: {
               status: ['1', '0'],

@@ -1,8 +1,7 @@
 const {Router} = require('express');
+
 const postsControllers = require('../controllers/posts-controller');
 const {postDataValidate} = require('../validations/posts-validation');
-
-
 const router = Router();
 
 router.get('/', postsControllers.getAllPosts);

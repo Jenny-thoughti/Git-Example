@@ -7,23 +7,28 @@ const models = require('../models');
 const Users = models.User;
 const BCRYPT_SALT_ROUNDS = 12;
 
-
 //  get all users
 const getAllUsers = async (req, res) => {
   try {
-    const users = await Users.scope('withoutPassword').findAndCountAll({});
-    return res.status(200).json({users});
+    // const id = req.body.id;
+    const usersData = await Users.count({});
+    if (usersData == 0) {
+      return res.status(404).send({'users': 'No data found'});
+    }
+    const users = await Users.scope(['withoutPassword', 'withoutToken']).findAndCountAll({});
+    res.status(200).json({users});
   } catch (error) {
     return res.status(500).send(error.message);
   }
 };
 
+
 // get by Id
-const getById = async (req, res, next) => {
+const getById = async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
 
-    const usersData = await Users.findByPk(id, {});
+    const usersData = await Users.scope(['withoutPassword', 'withoutToken']).findByPk(id, {});
     if (usersData == null) {
       return res.status(404).send({'users': 'No data found'});
     }
@@ -55,7 +60,6 @@ const check = async (req, res) => {
 const addUser = async (req, res) => {
   try {
     const errors = validationResult(req);
-    // if there is error then return Error
     if (!errors.isEmpty()) {
       return res.status(404).json({
         success: false,
@@ -65,11 +69,16 @@ const addUser = async (req, res) => {
 
     const userExists = await Users.findOne({
       where: {user_name: req.body.user_name},
-    }, {
-      where: {eamil: req.body.email},
     });
     if (userExists != null) {
-      return res.status(404).send('email or username already exists');
+      return res.status(404).send('username already exists');
+    }
+
+    const emailExists = await Users.findOne({
+      where: {email: req.body.email},
+    });
+    if (emailExists != null) {
+      return res.status(404).send('email already exists');
     }
 
     const {first_name, last_name, email, user_name, password, role, status, qualification} = req.body;
@@ -87,7 +96,6 @@ const addUser = async (req, res) => {
 const updateUsers = async (req, res) => {
   try {
     const errors = validationResult(req);
-    // if there is error then return Error
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
@@ -95,13 +103,20 @@ const updateUsers = async (req, res) => {
       });
     }
 
-    // already exits
-    const userExists = await Users.findOne({
-      where: {user_name: req.body.user_name,
-        email: req.body.email},
+    // Username already exits
+    const userNameExists = await Users.findOne({
+      where: {user_name: req.body.user_name},
     });
-    if (userExists != null) {
-      return res.status(400).send('email or username already exists');
+    if (userNameExists != null) {
+      return res.status(400).send('username already exists');
+    }
+
+    // email already exits
+    const userEmailExists = await Users.findOne({
+      where: {email: req.body.email},
+    });
+    if (userEmailExists != null) {
+      return res.status(400).send('email already exists');
     }
 
     const id = req.params.id;
@@ -112,13 +127,13 @@ const updateUsers = async (req, res) => {
 
     await Users.update(info, {where: {
       id: id}}).then((count) => {
-      if (!count) {
+      if ( !count ) {
         return res.status(404).send({error: 'No Users'});
       }
       res.status(200).send({'msg': 'updated'});
     });
   } catch (err) {
-    return res.status(500).send(error.message);
+    return res.status(500).send(err.message);
   }
 };
 
@@ -134,7 +149,7 @@ const deleteUsers = async (req, res) => {
       }
       res.status(200).send({msg: 'User is deleted'});
     });
-  } catch (err) {
+  } catch (error) {
     return res.status(500).send(error.message);
   }
 };
