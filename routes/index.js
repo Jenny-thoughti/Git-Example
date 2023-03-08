@@ -4,10 +4,10 @@ const userRoutes = require('./users-router');
 const postRoutes = require('./posts-router');
 const authRouter = require('./auth-router');
 
-
 const router = express.Router();
-// login Rest Api
-router.use('/users', authRouter);
+
+
+router.use('/users', authRouter); // login Rest Api
 
 //  Users
 router.use('/users', userRoutes);

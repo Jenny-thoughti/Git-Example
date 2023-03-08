@@ -8,7 +8,6 @@ const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 const User = require('../models').User;
 
-
 const opts = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('Bearer'),
   secretOrKey: jwtSecret.secret,
