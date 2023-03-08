@@ -1,8 +1,9 @@
+require('dotenv').config({});
+require('./config/passport');
+
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
-require('dotenv').config({});
-require('./config/passport');
 
 const PORT = process.env.APP_PORT || 3030;
 const app = express();

@@ -49,7 +49,7 @@ router.post(
 
               };
               const token = jwt.sign(jwtData, jwtSecret.secret, {
-                expiresIn: 60 * 30, // 15 Min
+                expiresIn: 60 * 30, // 30 Min
               });
               Users.update({access_token: token}, {where: {id: users.id}});
               return res.status(200).send({auth: true, id: users.id, token});

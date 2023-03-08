@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "8df808fc-952c-4868-91a8-c1a0744f1a4f",
+		"_postman_id": "91a97604-bfa3-4b01-bad8-81b442568ce5",
 		"name": "Jenny-Git-Tutorial",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25761031"
 	},
 	"item": [
 		{
@@ -88,7 +89,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"first_name\": \"asd\",\r\n    \"last_name\": \"asd\",\r\n    \"email\": \"asd@asd.asd\",\r\n    \"user_name\": \"asd\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"user\",\r\n    \"status\": \"1\",\r\n    \"qualification\": \"asd\"\r\n}",
+							"raw": "{\r\n                \"first_name\": \"Test6\",\r\n                \"last_name\": \"User 6\",\r\n                \"email\": \"user6@gmail.com\",\r\n                \"user_name\": \"user6\",\r\n                \"password\": \"456789\",\r\n                \"role\": \"User\",\r\n                \"status\": \"vgh\",\r\n                \"qualification\": \"BCA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -254,7 +255,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"first_name\": \"asd\",\r\n    \"last_name\": \"asd\",\r\n    \"email\": \"asd@asd.asd\",\r\n    \"user_name\": \"asd\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"user\",\r\n    \"status\": \"1\",\r\n    \"qualification\": \"asd\"\r\n}",
+							"raw": "{\r\n                \"first_name\": \"Test8\",\r\n                \"last_name\": \"User 8\",\r\n                \"email\": \"user8@gmail.com\",\r\n                \"user_name\": \"user8frt\",\r\n                \"password\": \"123456\",\r\n                \"role\": \"User\",\r\n                \"status\": \"0\",\r\n                \"qualification\": \"BCA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -262,7 +263,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/users/8",
+							"raw": "http://localhost:5000/users/88",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -270,7 +271,7 @@
 							"port": "5000",
 							"path": [
 								"users",
-								"8"
+								"88"
 							]
 						}
 					},
@@ -346,7 +347,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/users/9",
+							"raw": "http://localhost:5000/users/6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -354,7 +355,7 @@
 							"port": "5000",
 							"path": [
 								"users",
-								"9"
+								"6"
 							]
 						}
 					},
@@ -421,7 +422,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/users/scopes",
+							"raw": "http://localhost:5000/users/scopes/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -429,7 +430,8 @@
 							"port": "5000",
 							"path": [
 								"users",
-								"scopes"
+								"scopes",
+								"1"
 							]
 						}
 					},
@@ -542,6 +544,108 @@
 							"body": "{\n    \"count\": 3,\n    \"rows\": [\n        {\n            \"status\": \"active\",\n            \"id\": 1,\n            \"first_name\": \"Admin\",\n            \"last_name\": \"User\",\n            \"email\": \"admin@gmail.com\",\n            \"user_name\": \"admin\",\n            \"created_at\": \"2023-03-01T15:12:08.000Z\",\n            \"updated_at\": null,\n            \"role\": \"Admin\",\n            \"qualification\": \"MSC\"\n        },\n        {\n            \"status\": \"active\",\n            \"id\": 2,\n            \"first_name\": \"Test1\",\n            \"last_name\": \"User 1\",\n            \"email\": \"user1@gmail.com\",\n            \"user_name\": \"user1\",\n            \"created_at\": \"2023-03-01T15:12:08.000Z\",\n            \"updated_at\": null,\n            \"role\": \"User\",\n            \"qualification\": \"MCA\"\n        },\n        {\n            \"status\": \"active\",\n            \"id\": 3,\n            \"first_name\": \"Test2\",\n            \"last_name\": \"User 2\",\n            \"email\": \"user2@gmail.com\",\n            \"user_name\": \"user2\",\n            \"created_at\": \"2023-03-01T15:12:09.000Z\",\n            \"updated_at\": null,\n            \"role\": \"User\",\n            \"qualification\": \"BE\"\n        }\n    ]\n}"
 						}
 					]
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "user_name",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4MTkzMDA3LCJleHAiOjE2NzgxOTQ4MDd9.G_5Iy5w_wlh-TOL-uaVyEexQvGvyfE_XlgF6rbRcc_A",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/users/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "home",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4MTk3NjIzLCJleHAiOjE2NzgxOTk0MjN9.uF5-QAzSHrkyhMhrQKyG_br5zqnUuR9Q5mcF69NFj2E",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/users/home",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"home"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -628,7 +732,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Test Post\",\r\n    \"comment_status\": \"Completed\",\r\n    \"user_id\": \"1\"\r\n}",
+							"raw": "{\r\n    \"name\": \"user 5\",\r\n    \"comment_status\": \"Closed\",\r\n    \"user_id\": \"5\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -718,7 +822,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/posts/1",
+							"raw": "http://localhost:5000/posts/12",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -726,7 +830,7 @@
 							"port": "5000",
 							"path": [
 								"posts",
-								"1"
+								"12"
 							]
 						}
 					},
@@ -794,7 +898,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Test Post 1\",\r\n    \"comment_status\": \"Process\",\r\n    \"user_id\": \"3\"\r\n}",
+							"raw": "{\r\n    \"name\": \"user 88\",\r\n    \"comment_status\": \"In Progress\",\r\n    \"user_id\": \"3\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -802,7 +906,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/posts/6",
+							"raw": "http://localhost:5000/posts/8we",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -810,7 +914,7 @@
 							"port": "5000",
 							"path": [
 								"posts",
-								"6"
+								"8we"
 							]
 						}
 					},
@@ -886,7 +990,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/posts/6",
+							"raw": "http://localhost:5000/posts/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -894,7 +998,7 @@
 							"port": "5000",
 							"path": [
 								"posts",
-								"6"
+								""
 							]
 						}
 					},
