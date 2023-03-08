@@ -6,6 +6,7 @@ const {check, validationResult} = require('express-validator');
 const models = require('../models');
 const jwtSecret = require('../config/jwtConfig');
 const {accessToken} = require('../validations/users-validation');
+const helpers = require('../helpers/helpers');
 
 const Users = models.User;
 const router = express.Router();
@@ -21,21 +22,18 @@ router.post(
       try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          return res.status(400).json({
-            success: false,
-            errors: errors.array(),
-          });
+          return helpers.generateApiResponse(res, req, errors.array, 400);
         }
         console.log(req.body);
         passport.authenticate('login', (err, users, info) => {
           if (err) {
-            return res.status(401).send({'error': err});
+            return helpers.generateApiResponse(res, req, err, 401);
           }
           if (info !== undefined) {
             if (info.message === 'bad user_name') {
-              return res.status(401).send({'error': info.message});
+              return helpers.generateApiResponse(res, req, info.message, 401);
             }
-            return res.status(401).send({'error': info.message});
+            return helpers.generateApiResponse(res, req, info.message, 401);
           }
           req.logIn(users, () => {
             Users.findOne({
@@ -52,16 +50,15 @@ router.post(
                 expiresIn: 60 * 30, // 30 Min
               });
               Users.update({access_token: token}, {where: {id: users.id}});
-              return res.status(200).send({auth: true, id: users.id, token});
+              return helpers.generateApiResponse(res, req, 'Login successfully', 200, token);
             });
           });
         })(req, res, next);
-      } catch (err) {
-        res.status(500).send(err);
+      } catch (error) {
+        helpers.generateApiResponse(res, req, error.message, 500);
       }
     },
 );
-
 
 // home
 router.get('/home', accessToken, (req, res)=> {
@@ -69,20 +66,17 @@ router.get('/home', accessToken, (req, res)=> {
     jwt.verify(req.token, jwtSecret.secret, (err, users)=>{
       if (err) {
         console.log('error while verifying access token:', err);
-        return res.status(403).send(err);
+        return helpers.generateApiResponse(res, req, err.mesage, 403);
       }
       console.log('testing: ', users);
       const authData = {
         id: users.id,
         role: users.role,
       };
-      res.json({
-        message: 'Welcome to Profile',
-        userData: authData,
-      });
+      helpers.generateApiResponse(res, req, 'Welcome to Profile', 200, authData);
     });
-  } catch (err) {
-    res.status(500).send('err');
+  } catch (error) {
+    helpers.generateApiResponse(res, req, error.message, 500);
   }
 });
 
@@ -91,10 +85,10 @@ router.post('/logout', (req, res, next) => {
   try {
     passport.authenticate('jwt', {session: false}, async (err, users, info) => {
       if (err) {
-        return res.status(401).send(err);
+        return helpers.generateApiResponse(res, req, err.mesage, 401);
       }
       if (info !== undefined) {
-        return res.status(401).send({'error': info.message});
+        return helpers.generateApiResponse(res, req, info.mesage, 401);
       }
       const authorizationHeader = req.headers.authorization;
       const jwtToken = authorizationHeader.split(' ')[1];
@@ -102,14 +96,14 @@ router.post('/logout', (req, res, next) => {
       if (users.id) {
         if (data !== null) {
           await Users.update({access_token: null}, {where: {id: users.id}});
-          return res.status(200).send('logout');
+          return helpers.generateApiResponse(res, req, 'Logout successfully', 200);
         }
-        return res.status(404).send({'users': 'No token'});
+        return helpers.generateApiResponse(res, req, 'No Token Found', 404);
       }
-      return res.status(401).send('User is not authent`icated');
+      return helpers.generateApiResponse(res, req, 'User is not authenticated', 401);
     })(req, res, next);
   } catch (err) {
-    res.status(500).send(err);
+    helpers.generateApiResponse(res, req, err.mesage, 500);
   }
 });
 

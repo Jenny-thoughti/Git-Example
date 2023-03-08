@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwtSecret = require('./jwtConfig');
 const passport = require('passport');
+
 const LocalStrategy = require('passport-local').Strategy;
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;

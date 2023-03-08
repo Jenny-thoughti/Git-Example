@@ -89,7 +89,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n                \"first_name\": \"Test6\",\r\n                \"last_name\": \"User 6\",\r\n                \"email\": \"user6@gmail.com\",\r\n                \"user_name\": \"user6\",\r\n                \"password\": \"456789\",\r\n                \"role\": \"User\",\r\n                \"status\": \"vgh\",\r\n                \"qualification\": \"BCA\"\r\n}",
+							"raw": "{\r\n                \"first_name\": \"Test 8\",\r\n                \"last_name\": \"User 8\",\r\n                \"email\": \"user8@gmail.com\",\r\n                \"user_name\": \"user8\",\r\n                \"password\": \"123456\",\r\n                \"role\": \"User\",\r\n                \"status\": \"1\",\r\n                \"qualification\": \"BCOM\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -255,7 +255,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n                \"first_name\": \"Test8\",\r\n                \"last_name\": \"User 8\",\r\n                \"email\": \"user8@gmail.com\",\r\n                \"user_name\": \"user8frt\",\r\n                \"password\": \"123456\",\r\n                \"role\": \"User\",\r\n                \"status\": \"0\",\r\n                \"qualification\": \"BCA\"\r\n}",
+							"raw": "{\r\n                \"first_name\": \"Test 8\",\r\n                \"last_name\": \"User 8\",\r\n                \"email\": \"user8888@gmail.com\",\r\n                \"user_name\": \"user8888\",\r\n                \"password\": \"123456\",\r\n                \"role\": \"User\",\r\n                \"status\": \"1\",\r\n                \"qualification\": \"BCA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -263,7 +263,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/users/88",
+							"raw": "http://localhost:5000/users/8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -271,7 +271,7 @@
 							"port": "5000",
 							"path": [
 								"users",
-								"88"
+								"8"
 							]
 						}
 					},
@@ -347,7 +347,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/users/6",
+							"raw": "http://localhost:5000/users/8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -355,7 +355,7 @@
 							"port": "5000",
 							"path": [
 								"users",
-								"6"
+								"8"
 							]
 						}
 					},
@@ -422,7 +422,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/users/scopes/1",
+							"raw": "http://localhost:5000/users/scopes/0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -431,7 +431,7 @@
 							"path": [
 								"users",
 								"scopes",
-								"1"
+								"0"
 							]
 						}
 					},
@@ -555,12 +555,12 @@
 							"urlencoded": [
 								{
 									"key": "user_name",
-									"value": "admin",
+									"value": "user6",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "123456",
+									"value": "456789",
 									"type": "text"
 								}
 							]
@@ -587,7 +587,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4MTkzMDA3LCJleHAiOjE2NzgxOTQ4MDd9.G_5Iy5w_wlh-TOL-uaVyEexQvGvyfE_XlgF6rbRcc_A",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4MjU2OTgzLCJleHAiOjE2NzgyNTg3ODN9.PdB204H-sByJjRYSEhcXzn6C2JmYMhOuNemvIWTwRGw",
 								"type": "text"
 							},
 							{
@@ -628,7 +628,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4MTk3NjIzLCJleHAiOjE2NzgxOTk0MjN9.uF5-QAzSHrkyhMhrQKyG_br5zqnUuR9Q5mcF69NFj2E",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IlVzZXIiLCJpYXQiOjE2NzgyNzUzNzgsImV4cCI6MTY3ODI3NzE3OH0.uA7GMnxzP1xgmbK5OWHhrIzR4v6ZEi4JGb0C5gbBWhM",
 								"type": "text"
 							}
 						],
@@ -732,7 +732,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"user 5\",\r\n    \"comment_status\": \"Closed\",\r\n    \"user_id\": \"5\"\r\n}",
+							"raw": "{\r\n    \"name\": \"user6\",\r\n    \"comment_status\": \"Closed\",\r\n    \"user_id\": \"2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -822,7 +822,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/posts/12",
+							"raw": "http://localhost:5000/posts/60",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -830,7 +830,7 @@
 							"port": "5000",
 							"path": [
 								"posts",
-								"12"
+								"60"
 							]
 						}
 					},
@@ -898,7 +898,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"user 88\",\r\n    \"comment_status\": \"In Progress\",\r\n    \"user_id\": \"3\"\r\n}",
+							"raw": "{\r\n    \"name\": \"user66\",\r\n    \"comment_status\": \"In Progress\",\r\n    \"user_id\": \"5\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -906,7 +906,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/posts/8we",
+							"raw": "http://localhost:5000/posts/6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -914,7 +914,7 @@
 							"port": "5000",
 							"path": [
 								"posts",
-								"8we"
+								"6"
 							]
 						}
 					},
@@ -990,7 +990,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/posts/",
+							"raw": "http://localhost:5000/posts/60",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -998,7 +998,7 @@
 							"port": "5000",
 							"path": [
 								"posts",
-								""
+								"60"
 							]
 						}
 					},

@@ -2,6 +2,8 @@ const moment = require('moment');
 const {validationResult} = require('express-validator');
 
 const models = require('../models');
+const helpers = require('../helpers/helpers');
+
 const Users = models.User;
 const Posts = models.Post;
 
@@ -15,14 +17,14 @@ const getAllPosts = async (req, res) => {
         attributes: ['id', 'first_name', 'last_name', 'email', 'qualification'],
       },
     ];
-    const postsData = await Posts.count({});
+    const postsData = await Posts.count();
     if (postsData == 0) {
-      return res.status(404).send({'posts': 'No data found'});
+      return helpers.generateApiResponse(res, req, 'No Data found.', 404);
     }
     const posts = await Posts.findAndCountAll({include: includeUsers});
-    res.status(200).json({posts});
+    helpers.generateApiResponse(res, req, 'Posts Data found.', 200, posts);
   } catch (error) {
-    return res.status(500).send(error.message);
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
@@ -49,14 +51,11 @@ const getById = async (req, res) => {
       include: includeUsers,
     });
     if (postData == null) {
-      return res.status(404).send({'posts': 'No data found'});
+      return helpers.generateApiResponse(res, req, 'No Data Found.', 404);
     }
-
-    return res.status(200).send({
-      'post': postData,
-    });
-  } catch (err) {
-    return res.status(500).send(err.message);
+    helpers.generateApiResponse(res, req, 'Posts Data.', 200, postData);
+  } catch (error) {
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
@@ -65,12 +64,8 @@ const getById = async (req, res) => {
 const addPosts = async (req, res) => {
   try {
     const errors = validationResult(req);
-    // if there is error then return Error
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        errors: errors.array(),
-      });
+      return helpers.generateApiResponse(res, req, errors.array(), 400);
     }
 
     // name already exists
@@ -78,16 +73,16 @@ const addPosts = async (req, res) => {
       where: {name: req.body.name},
     });
     if (postExists != null) {
-      return res.status(404).send('Post with same name already exists');
+      return helpers.generateApiResponse(res, req, 'Posts with same name already exists', 409);
     }
 
     const {name, comment_status, user_id} = req.body;
     const data = {name, comment_status, user_id};
 
     const postCreate = await Posts.create(data);
-    res.status(200).json({'posts': postCreate});
-  } catch (err) {
-    return res.status(500).send(err.message);
+    helpers.generateApiResponse(res, req, 'Posts created', 200, postCreate);
+  } catch (error) {
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
@@ -97,17 +92,14 @@ const updatePosts = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        errors: errors.array(),
-      });
+      return helpers.generateApiResponse(res, req, errors.array, 400);
     }
     // already exits
     const postExists = await Posts.findOne({
       where: {name: req.body.name},
     });
     if (postExists != null) {
-      return res.status(400).send('Post with same name already exists');
+      return helpers.generateApiResponse(res, req, 'Posts with same name already exists', 409);
     }
 
     const id = req.params.id;
@@ -119,12 +111,12 @@ const updatePosts = async (req, res) => {
       where: {
         id: id}}).then((count) => {
       if (!count) {
-        return res.status(404).send({'error': 'No Posts'});
+        return helpers.generateApiResponse(res, req, 'No posts', 404);
       }
-      res.status(200).send({'msg': 'updated'});
+      helpers.generateApiResponse(res, req, 'Posts Updated', 200);
     });
-  } catch (err) {
-    return res.status(500).send(err.message);
+  } catch (error) {
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
@@ -137,12 +129,12 @@ const deletePosts = async (req, res) => {
       where: {
         id: id}}).then((count) => {
       if (!count) {
-        return res.status(404).send({error: 'No Posts'});
+        return helpers.generateApiResponse(res, req, 'No Posts Found', 404);
       }
-      res.status(200).send({'Posts': 'deleted'});
+      helpers.generateApiResponse(res, req, 'Posts deleted', 200);
     });
-  } catch (err) {
-    return res.status(500).send(err.message);
+  } catch (error) {
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 

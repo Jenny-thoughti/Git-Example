@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const moment = require('moment');
 const {validationResult} = require('express-validator');
 
+const helpers = require('../helpers/helpers');
 const models = require('../models');
 
 const Users = models.User;
@@ -10,15 +11,15 @@ const BCRYPT_SALT_ROUNDS = 12;
 //  get all users
 const getAllUsers = async (req, res) => {
   try {
-    // const id = req.body.id;
     const usersData = await Users.count({});
     if (usersData == 0) {
-      return res.status(404).send({'users': 'No data found'});
+      return helpers.generateApiResponse(res, req, 'No data found.', 404);
     }
     const users = await Users.scope(['withoutPassword', 'withoutToken']).findAndCountAll({});
-    res.status(200).json({users});
+    return helpers.generateApiResponse(res, req, 'Data found.', 200, users);
   } catch (error) {
-    return res.status(500).send(error.message);
+    console.log('API:', error);
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
@@ -27,20 +28,17 @@ const getAllUsers = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
-
     const usersData = await Users.scope(['withoutPassword', 'withoutToken']).findByPk(id, {});
     if (usersData == null) {
-      return res.status(404).send({'users': 'No data found'});
+      return helpers.generateApiResponse(res, req, 'No data found.', 404);
     }
-    return res.status(200).send({
-      'users': usersData,
-    });
-  } catch (err) {
-    return res.status(500).send(err.message);
+    return helpers.generateApiResponse(res, req, 'Data found.', 200, usersData);
+  } catch (error) {
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
-//  scopes
+//  scopes add validation
 const check = async (req, res) => {
   try {
     const scopes = req.params.status;
@@ -49,9 +47,9 @@ const check = async (req, res) => {
         status: scopes,
       },
     });
-    res.status(200).json({'users': data});
+    return helpers.generateApiResponse(res, req, 'Sata found.', 200, data);
   } catch (error) {
-    return res.status(500).send(error.message);
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
@@ -61,34 +59,30 @@ const addUser = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(404).json({
-        success: false,
-        errors: errors.array(),
-      });
+      return helpers.generateApiResponse(res, req, errors.array(), 400);
     }
 
     const userExists = await Users.findOne({
       where: {user_name: req.body.user_name},
     });
     if (userExists != null) {
-      return res.status(404).send('username already exists');
+      return helpers.generateApiResponse(res, req, 'Username already exists.', 409);
     }
 
     const emailExists = await Users.findOne({
       where: {email: req.body.email},
     });
     if (emailExists != null) {
-      return res.status(404).send('email already exists');
+      return helpers.generateApiResponse(res, req, 'Email already exists', 409);
     }
 
     const {first_name, last_name, email, user_name, password, role, status, qualification} = req.body;
     const hash = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
     const info = {first_name, last_name, email, user_name, password: hash, role, status, qualification};
-
     const userCreate = await Users.create(info);
-    res.status(200).send({'users': userCreate});
+    helpers.generateApiResponse(res, req, 'Users created.', 200, userCreate);
   } catch (error) {
-    return res.status(500).send(error.message);
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
@@ -97,10 +91,7 @@ const updateUsers = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        errors: errors.array(),
-      });
+      return helpers.generateApiResponse(res, req, errors.array(), 400);
     }
 
     // Username already exits
@@ -108,7 +99,7 @@ const updateUsers = async (req, res) => {
       where: {user_name: req.body.user_name},
     });
     if (userNameExists != null) {
-      return res.status(400).send('username already exists');
+      return helpers.generateApiResponse(res, req, 'Username already exists.', 409);
     }
 
     // email already exits
@@ -116,7 +107,7 @@ const updateUsers = async (req, res) => {
       where: {email: req.body.email},
     });
     if (userEmailExists != null) {
-      return res.status(400).send('email already exists');
+      return helpers.generateApiResponse(res, req, 'email already exists.', 409);
     }
 
     const id = req.params.id;
@@ -128,12 +119,12 @@ const updateUsers = async (req, res) => {
     await Users.update(info, {where: {
       id: id}}).then((count) => {
       if ( !count ) {
-        return res.status(404).send({error: 'No Users'});
+        return helpers.generateApiResponse(res, req, 'No users.', 404);
       }
-      res.status(200).send({'msg': 'updated'});
+      helpers.generateApiResponse(res, req, 'Users Updated.', 200);
     });
-  } catch (err) {
-    return res.status(500).send(err.message);
+  } catch (error) {
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
@@ -145,12 +136,12 @@ const deleteUsers = async (req, res) => {
       where: {
         id: id}}).then((count) => {
       if (!count) {
-        return res.status(404).send({error: 'No user'});
+        return helpers.generateApiResponse(res, req, 'No Users Data.', 404);
       }
-      res.status(200).send({msg: 'User is deleted'});
+      helpers.generateApiResponse(res, req, 'Users is deleted.', 200);
     });
   } catch (error) {
-    return res.status(500).send(error.message);
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
