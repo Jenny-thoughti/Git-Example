@@ -4,24 +4,21 @@ const {validationResult} = require('express-validator');
 const models = require('../models');
 const helpers = require('../helpers/helpers');
 
-const Users = models.User;
-const Posts = models.Post;
-
 
 //  get all posts and include users
 const getAllPosts = async (req, res) => {
   try {
     const includeUsers = [
       {
-        model: Users,
+        model: models.User,
         attributes: ['id', 'first_name', 'last_name', 'email', 'qualification'],
       },
     ];
-    const postsData = await Posts.count();
+    const postsData = await models.Post.count();
     if (postsData == 0) {
       return helpers.generateApiResponse(res, req, 'No Data found.', 404);
     }
-    const posts = await Posts.findAndCountAll({include: includeUsers});
+    const posts = await models.Post.findAndCountAll({include: includeUsers});
     helpers.generateApiResponse(res, req, 'Posts Data found.', 200, posts);
   } catch (error) {
     return helpers.generateApiResponse(res, req, error.message, 500);
@@ -35,11 +32,11 @@ const getById = async (req, res) => {
     const id = parseInt(req.params.id, 10);
     const includeUsers = [
       {
-        model: Users,
+        model: models.User,
         attributes: ['id', 'first_name', 'last_name', 'email', 'qualification'],
       },
     ];
-    const postData = await Posts.findByPk(id, {
+    const postData = await models.Post.findByPk(id, {
       attributes: [
         'id',
         'name',
@@ -69,7 +66,7 @@ const addPosts = async (req, res) => {
     }
 
     // name already exists
-    const postExists = await Posts.findOne({
+    const postExists = await models.Post.findOne({
       where: {name: req.body.name},
     });
     if (postExists != null) {
@@ -79,7 +76,7 @@ const addPosts = async (req, res) => {
     const {name, comment_status, user_id} = req.body;
     const data = {name, comment_status, user_id};
 
-    const postCreate = await Posts.create(data);
+    const postCreate = await models.Post.create(data);
     helpers.generateApiResponse(res, req, 'Posts created', 200, postCreate);
   } catch (error) {
     return helpers.generateApiResponse(res, req, error.message, 500);
@@ -95,7 +92,7 @@ const updatePosts = async (req, res) => {
       return helpers.generateApiResponse(res, req, errors.array, 400);
     }
     // already exits
-    const postExists = await Posts.findOne({
+    const postExists = await models.Post.findOne({
       where: {name: req.body.name},
     });
     if (postExists != null) {
@@ -107,7 +104,7 @@ const updatePosts = async (req, res) => {
     const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const info = {name, comment_status, user_id, created_at, updated_at: date};
 
-    await Posts.update(info, {
+    await models.Post.update(info, {
       where: {
         id: id}}).then((count) => {
       if (!count) {
@@ -125,7 +122,7 @@ const updatePosts = async (req, res) => {
 const deletePosts = async (req, res) => {
   try {
     const id = req.params.id;
-    await Posts.destroy({
+    await models.Post.destroy({
       where: {
         id: id}}).then((count) => {
       if (!count) {
