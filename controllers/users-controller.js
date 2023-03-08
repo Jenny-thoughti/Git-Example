@@ -5,18 +5,17 @@ const {validationResult} = require('express-validator');
 const helpers = require('../helpers/helpers');
 const models = require('../models');
 
-const Users = models.User;
 const BCRYPT_SALT_ROUNDS = 12;
 
 //  get all users
 const getAllUsers = async (req, res) => {
   try {
-    const usersData = await Users.count({});
+    const usersData = await models.User.count();
     if (usersData == 0) {
       return helpers.generateApiResponse(res, req, 'No data found.', 404);
     }
-    const users = await Users.scope(['withoutPassword', 'withoutToken']).findAndCountAll({});
-    return helpers.generateApiResponse(res, req, 'Data found.', 200, users);
+    const users = await models.User.scope(['withoutPassword', 'withoutToken']).findAndCountAll();
+    helpers.generateApiResponse(res, req, 'Data found.', 200, users);
   } catch (error) {
     console.log('API:', error);
     return helpers.generateApiResponse(res, req, error.message, 500);
@@ -28,7 +27,7 @@ const getAllUsers = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
-    const usersData = await Users.scope(['withoutPassword', 'withoutToken']).findByPk(id, {});
+    const usersData = await models.User.scope(['withoutPassword', 'withoutToken']).findByPk(id, {});
     if (usersData == null) {
       return helpers.generateApiResponse(res, req, 'No data found.', 404);
     }
@@ -42,7 +41,7 @@ const getById = async (req, res) => {
 const check = async (req, res) => {
   try {
     const scopes = req.params.status;
-    const data = await Users.scope(['withoutPassword']).findAndCountAll({
+    const data = await models.User.scope(['withoutPassword']).findAndCountAll({
       where: {
         status: scopes,
       },
@@ -62,14 +61,14 @@ const addUser = async (req, res) => {
       return helpers.generateApiResponse(res, req, errors.array(), 400);
     }
 
-    const userExists = await Users.findOne({
+    const userExists = await models.User.findOne({
       where: {user_name: req.body.user_name},
     });
     if (userExists != null) {
       return helpers.generateApiResponse(res, req, 'Username already exists.', 409);
     }
 
-    const emailExists = await Users.findOne({
+    const emailExists = await models.User.findOne({
       where: {email: req.body.email},
     });
     if (emailExists != null) {
@@ -79,7 +78,7 @@ const addUser = async (req, res) => {
     const {first_name, last_name, email, user_name, password, role, status, qualification} = req.body;
     const hash = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
     const info = {first_name, last_name, email, user_name, password: hash, role, status, qualification};
-    const userCreate = await Users.create(info);
+    const userCreate = await models.User.create(info);
     helpers.generateApiResponse(res, req, 'Users created.', 200, userCreate);
   } catch (error) {
     return helpers.generateApiResponse(res, req, error.message, 500);
@@ -95,7 +94,7 @@ const updateUsers = async (req, res) => {
     }
 
     // Username already exits
-    const userNameExists = await Users.findOne({
+    const userNameExists = await models.User.findOne({
       where: {user_name: req.body.user_name},
     });
     if (userNameExists != null) {
@@ -103,7 +102,7 @@ const updateUsers = async (req, res) => {
     }
 
     // email already exits
-    const userEmailExists = await Users.findOne({
+    const userEmailExists = await models.User.findOne({
       where: {email: req.body.email},
     });
     if (userEmailExists != null) {
@@ -116,7 +115,7 @@ const updateUsers = async (req, res) => {
     const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const info = {first_name, last_name, email, user_name, password: hash, role, status, qualification, updated_at: date};
 
-    await Users.update(info, {where: {
+    await models.User.update(info, {where: {
       id: id}}).then((count) => {
       if ( !count ) {
         return helpers.generateApiResponse(res, req, 'No users.', 404);
@@ -132,7 +131,7 @@ const updateUsers = async (req, res) => {
 const deleteUsers = async (req, res) => {
   try {
     const id = req.params.id;
-    await Users.destroy({
+    await models.User.destroy({
       where: {
         id: id}}).then((count) => {
       if (!count) {
