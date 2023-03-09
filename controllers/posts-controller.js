@@ -14,11 +14,10 @@ const getAllPosts = async (req, res) => {
         attributes: ['id', 'first_name', 'last_name', 'email', 'qualification'],
       },
     ];
-    const postsData = await models.Post.count();
-    if (postsData == 0) {
+    const posts = await models.Post.findAndCountAll({include: includeUsers});
+    if (posts.count <= 0) {
       return helpers.generateApiResponse(res, req, 'No Data found.', 404);
     }
-    const posts = await models.Post.findAndCountAll({include: includeUsers});
     helpers.generateApiResponse(res, req, 'Posts Data found.', 200, posts);
   } catch (error) {
     return helpers.generateApiResponse(res, req, error.message, 500);
@@ -73,8 +72,8 @@ const addPosts = async (req, res) => {
       return helpers.generateApiResponse(res, req, 'Posts with same name already exists', 409);
     }
 
-    const {postName, postComment, postId} = req.body;
-    const data = {name: postName, comment_status: postComment, user_id: postId};
+    const {name, comment_status, user_id} = req.body;
+    const data = {name, comment_status, user_id};
 
     const postCreate = await models.Post.create(data);
     helpers.generateApiResponse(res, req, 'Posts created', 200, postCreate);
