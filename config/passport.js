@@ -6,6 +6,7 @@ const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 const jwtSecret = require('./jwtConfig');
 
+
 const User = require('../models').User;
 
 const opts = {

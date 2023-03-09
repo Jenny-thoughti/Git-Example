@@ -15,7 +15,7 @@ const getAllPosts = async (req, res) => {
       },
     ];
     const posts = await models.Post.findAndCountAll({include: includeUsers});
-    if (posts.count <= 0) {
+    if (posts <= 0) {
       return helpers.generateApiResponse(res, req, 'No Data found.', 404);
     }
     helpers.generateApiResponse(res, req, 'Posts Data found.', 200, posts);
@@ -66,18 +66,19 @@ const addPosts = async (req, res) => {
 
     // name already exists
     const postExists = await models.Post.findOne({
-      where: {name: req.body.name},
+      where: {name: req.body.post_name},
     });
     if (postExists != null) {
       return helpers.generateApiResponse(res, req, 'Posts with same name already exists', 409);
     }
 
-    const {name, comment_status, user_id} = req.body;
-    const data = {name, comment_status, user_id};
+    const {post_name, post_comment, post_user_id} = req.body;
+    const data = {name: post_name, comment_status: post_comment, user_id: post_user_id};
 
     const postCreate = await models.Post.create(data);
     helpers.generateApiResponse(res, req, 'Posts created', 200, postCreate);
   } catch (error) {
+    console.log('Error for validation:', error);
     return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
@@ -92,16 +93,16 @@ const updatePosts = async (req, res) => {
     }
     // already exits
     const postExists = await models.Post.findOne({
-      where: {name: req.body.name},
+      where: {name: req.body.post_name},
     });
     if (postExists != null) {
       return helpers.generateApiResponse(res, req, 'Posts with same name already exists', 409);
     }
 
     const id = req.params.id;
-    const {name, comment_status, user_id, created_at} = req.body;
+    const {post_name, post_comment, post_user_id} = req.body;
     const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-    const info = {name, comment_status, user_id, created_at, updated_at: date};
+    const info = {name: post_name, comment_status: post_comment, user_id: post_user_id, created_at, updated_at: date};
 
     await models.Post.update(info, {
       where: {

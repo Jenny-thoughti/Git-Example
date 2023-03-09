@@ -1,11 +1,11 @@
 const {Router} = require('express');
 
 const usersControllers = require('../controllers/users-controller');
-const {userDataValidate, loginValidation} = require('../validations/users-validation');
+const {userDataValidate, loginValidate} = require('../validations/users-validation');
 
 const router = Router();
 
-router.post('/login', loginValidation, usersControllers.userLogin);
+router.post('/login', loginValidate, usersControllers.userLogin);
 
 router.get('/home', usersControllers.home);
 

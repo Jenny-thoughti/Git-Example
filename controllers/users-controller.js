@@ -14,11 +14,10 @@ const BCRYPT_SALT_ROUNDS = 12;
 //  get all users
 const getAllUsers = async (req, res) => {
   try {
-    const usersData = await models.User.count();
-    if (usersData == 0) {
+    const users = await models.User.scope(['withoutPassword', 'withoutToken']).findAndCountAll();
+    if (users <= 0) {
       return helpers.generateApiResponse(res, req, 'No data found.', 404);
     }
-    const users = await models.User.scope(['withoutPassword', 'withoutToken']).findAndCountAll();
     helpers.generateApiResponse(res, req, 'Data found.', 200, users);
   } catch (error) {
     console.log('API:', error);
@@ -29,10 +28,9 @@ const getAllUsers = async (req, res) => {
 
 // get by Id
 const getById = async (req, res) => {
-  console.log('Parameter:', req.params.id);
   try {
     const id = parseInt(req.params.id, 10);
-    const usersData = await models.User.scope(['withoutPassword', 'withoutToken']).findByPk(id);
+    const usersData = await models.User.scope(['withoutPassword', 'withoutToken']).findByPk(id, {});
     if (usersData == null) {
       return helpers.generateApiResponse(res, req, 'No data found.', 404);
     }
@@ -41,6 +39,7 @@ const getById = async (req, res) => {
     return helpers.generateApiResponse(res, req, error, 500);
   }
 };
+
 
 //  scopes add validation
 const check = async (req, res) => {
@@ -51,7 +50,7 @@ const check = async (req, res) => {
         status: scopes,
       },
     });
-    return helpers.generateApiResponse(res, req, 'Sata found.', 200, data);
+    return helpers.generateApiResponse(res, req, 'Data found.', 200, data);
   } catch (error) {
     return helpers.generateApiResponse(res, req, error, 500);
   }
@@ -63,32 +62,35 @@ const addUser = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return helpers.generateApiResponse(res, req, errors.array(), 400);
+      return helpers.generateApiResponse(res, req, errors, 400);
     }
 
     const userExists = await models.User.findOne({
-      where: {user_name: req.body.user_name},
+      where: {user_name: req.body.userName},
     });
     if (userExists != null) {
       return helpers.generateApiResponse(res, req, 'Username already exists.', 409);
     }
 
     const emailExists = await models.User.findOne({
-      where: {email: req.body.email},
+      where: {email: req.body.user_email},
     });
     if (emailExists != null) {
       return helpers.generateApiResponse(res, req, 'Email already exists', 409);
     }
 
-    const {first_name, last_name, email, user_name, password, role, status, qualification} = req.body;
-    const hash = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-    const info = {first_name, last_name, email, user_name, password: hash, role, status, qualification};
+    const {user_first_name, user_last_name, user_email, userName, user_password, user_role, user_status, user_qualification} = req.body;
+    const hash = await bcrypt.hash(user_password, BCRYPT_SALT_ROUNDS);
+
+    const info = {first_name: user_first_name, last_name: user_last_name, email: user_email, user_name: userName,
+      password: hash, role: user_role, status: user_status, qualification: user_qualification};
     const userCreate = await models.User.create(info);
     helpers.generateApiResponse(res, req, 'Users created.', 200, userCreate);
   } catch (error) {
     return helpers.generateApiResponse(res, req, error, 500);
   }
 };
+
 
 //  Update
 const updateUsers = async (req, res) => {
@@ -100,7 +102,7 @@ const updateUsers = async (req, res) => {
 
     // Username already exits
     const userNameExists = await models.User.findOne({
-      where: {user_name: req.body.user_name},
+      where: {user_name: req.body.userName},
     });
     if (userNameExists != null) {
       return helpers.generateApiResponse(res, req, 'Username already exists.', 409);
@@ -108,17 +110,19 @@ const updateUsers = async (req, res) => {
 
     // email already exits
     const userEmailExists = await models.User.findOne({
-      where: {email: req.body.email},
+      where: {email: req.body.user_email},
     });
     if (userEmailExists != null) {
       return helpers.generateApiResponse(res, req, 'email already exists.', 409);
     }
 
     const id = req.params.id;
-    const {first_name, last_name, email, user_name, password, role, status, qualification} = req.body;
-    const hash = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
+    const {user_first_name, user_last_name, user_email, userName, user_password, user_role, user_status,
+      user_qualification} = req.body;
+    const hash = await bcrypt.hash(user_password, BCRYPT_SALT_ROUNDS);
     const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-    const info = {first_name, last_name, email, user_name, password: hash, role, status, qualification, updated_at: date};
+    const info = {first_name: user_first_name, last_name: user_last_name, email1: user_email, user_name: userName,
+      password: hash, role: user_role, status: user_status, qualification: user_qualification, updated_at: date};
 
     await models.User.update(info, {where: {
       id: id}}).then((count) => {
@@ -133,6 +137,7 @@ const updateUsers = async (req, res) => {
 };
 
 
+// delete
 const deleteUsers = async (req, res) => {
   try {
     const id = req.params.id;
@@ -149,6 +154,8 @@ const deleteUsers = async (req, res) => {
   }
 };
 
+
+// login
 const userLogin = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -186,10 +193,12 @@ const userLogin = async (req, res, next) => {
       });
     })(req, res, next);
   } catch (error) {
-    helpers.generateApiResponse(res, req, error, 500);
+    helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
+
+// home
 const home = async (req, res, next) => {
   try {
     passport.authenticate('jwt', {session: false}, async (err, users, info) => {
@@ -218,6 +227,8 @@ const home = async (req, res, next) => {
   }
 };
 
+
+// Logout
 const logout = async (req, res, next) => {
   try {
     passport.authenticate('jwt', {session: false}, async (err, users, info) => {
