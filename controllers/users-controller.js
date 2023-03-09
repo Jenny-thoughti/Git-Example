@@ -32,7 +32,7 @@ const getById = async (req, res) => {
   console.log('Parameter:', req.params.id);
   try {
     const id = parseInt(req.params.id, 10);
-    const usersData = await models.User.scope(['withoutPassword', 'withoutToken']).findByPk(id, {});
+    const usersData = await models.User.scope(['withoutPassword', 'withoutToken']).findByPk(id);
     if (usersData == null) {
       return helpers.generateApiResponse(res, req, 'No data found.', 404);
     }
