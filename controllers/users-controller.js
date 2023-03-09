@@ -1,11 +1,15 @@
 const bcrypt = require('bcrypt');
 const moment = require('moment');
 const {validationResult} = require('express-validator');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 const helpers = require('../helpers/helpers');
 const models = require('../models');
+const jwtSecret = require('../config/jwtConfig');
 
 const BCRYPT_SALT_ROUNDS = 12;
+
 
 //  get all users
 const getAllUsers = async (req, res) => {
@@ -25,6 +29,7 @@ const getAllUsers = async (req, res) => {
 
 // get by Id
 const getById = async (req, res) => {
+  console.log('Parameter:', req.params.id);
   try {
     const id = parseInt(req.params.id, 10);
     const usersData = await models.User.scope(['withoutPassword', 'withoutToken']).findByPk(id, {});
@@ -144,6 +149,94 @@ const deleteUsers = async (req, res) => {
   }
 };
 
+const userLogin = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return helpers.generateApiResponse(res, req, errors.array, 400);
+    }
+    console.log(req.body);
+    passport.authenticate('login', (err, users, info) => {
+      if (err) {
+        return helpers.generateApiResponse(res, req, err, 401);
+      }
+      if (info !== undefined) {
+        if (info.message === 'bad user_name') {
+          return helpers.generateApiResponse(res, req, info.message, 401);
+        }
+        return helpers.generateApiResponse(res, req, info.message, 401);
+      }
+      req.logIn(users, () => {
+        models.User.findOne({
+          where: {
+            user_name: req.body.user_name,
+          },
+        }).then((users) => {
+          const jwtData = {
+            id: users.id,
+            role: users.role,
+
+          };
+          const token = jwt.sign(jwtData, jwtSecret.secret, {
+            expiresIn: 60 * 30, // 30 Min
+          });
+          models.User.update({access_token: token}, {where: {id: users.id}});
+          return helpers.generateApiResponse(res, req, 'Login successfully', 200, token);
+        });
+      });
+    })(req, res, next);
+  } catch (error) {
+    helpers.generateApiResponse(res, req, error.message, 500);
+  }
+};
+
+const home = async (req, res) => {
+  try {
+    jwt.verify(req.token, jwtSecret.secret, (err, user)=>{
+      if (err) {
+        console.log('error while verifying access token:', err);
+        return helpers.generateApiResponse(res, req, err.message, 403);
+      }
+      // console.log('testing: ', user);
+      const authData = {
+        id: user.id,
+        role: user.role,
+      };
+      helpers.generateApiResponse(res, req, 'Welcome to Profile', 200, authData);
+    });
+  } catch (error) {
+    console.log('Error message:', error.message);
+    helpers.generateApiResponse(res, req, error.message, 500);
+  }
+};
+
+
+const logout = async (req, res, next) => {
+  try {
+    passport.authenticate('jwt', {session: false}, async (err, users, info) => {
+      if (err) {
+        return helpers.generateApiResponse(res, req, err, 401);
+      }
+      if (info !== undefined) {
+        return helpers.generateApiResponse(res, req, info.message, 401);
+      }
+      const authorizationHeader = req.headers.authorization;
+      const jwtToken = authorizationHeader.split(' ')[1];
+      const data = await models.User.findOne({where: {access_token: jwtToken}});
+      if (users.id) {
+        if (data !== null) {
+          await models.User.update({access_token: null}, {where: {id: users.id}});
+          return helpers.generateApiResponse(res, req, 'Logout successfully', 200);
+        }
+        return helpers.generateApiResponse(res, req, 'No Token Found', 404);
+      }
+      return helpers.generateApiResponse(res, req, 'User is not authenticated', 401);
+    })(req, res, next);
+  } catch (err) {
+    helpers.generateApiResponse(res, req, err, 500);
+  }
+};
+
 
 module.exports = {
   getAllUsers,
@@ -152,4 +245,7 @@ module.exports = {
   updateUsers,
   deleteUsers,
   check,
+  userLogin,
+  home,
+  logout,
 };

@@ -73,8 +73,8 @@ const addPosts = async (req, res) => {
       return helpers.generateApiResponse(res, req, 'Posts with same name already exists', 409);
     }
 
-    const {name, comment_status, user_id} = req.body;
-    const data = {name, comment_status, user_id};
+    const {postName, postComment, postId} = req.body;
+    const data = {name: postName, comment_status: postComment, user_id: postId};
 
     const postCreate = await models.Post.create(data);
     helpers.generateApiResponse(res, req, 'Posts created', 200, postCreate);
