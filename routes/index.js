@@ -5,10 +5,8 @@ const postRoutes = require('./posts-router');
 
 const router = express.Router();
 
-//  Users
-router.use('/users', userRoutes);
+router.use('/users', userRoutes); // Users
 
-// Posts
-router.use('/posts', postRoutes);
+router.use('/posts', postRoutes); // Posts
 
 module.exports = router;

@@ -11,7 +11,6 @@ router.get('/home', usersControllers.home);
 
 router.post('/logout', usersControllers.logout);
 
-//  Users
 router.get('/scopes/:status', usersControllers.check);
 
 router.get('/', usersControllers.getAllUsers);
