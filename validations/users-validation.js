@@ -12,7 +12,7 @@ const userDataValidate = (req, res, next) => {
 
 
 const loginValidate = (req, res, next) => {
-  if (!req.body.user_name || !req.body.password) {
+  if (!req.body.userName || !req.body.user_password) {
     return helpers.generateApiResponse(req, res, 'fill all details', 400);
   }
   next();

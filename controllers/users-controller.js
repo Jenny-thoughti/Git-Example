@@ -163,7 +163,7 @@ const userLogin = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return helpers.generateApiResponse(res, req, errors.array, 400);
+      return helpers.generateApiResponse(res, req, errors, 400);
     }
     console.log(req.body);
     passport.authenticate('login', (err, users, info) => {
@@ -179,7 +179,7 @@ const userLogin = async (req, res, next) => {
       req.logIn(users, () => {
         models.User.findOne({
           where: {
-            user_name: req.body.user_name,
+            user_name: req.body.userName,
           },
         }).then((users) => {
           const jwtData = {
@@ -196,7 +196,7 @@ const userLogin = async (req, res, next) => {
       });
     })(req, res, next);
   } catch (error) {
-    helpers.generateApiResponse(res, req, error.message, 500);
+    helpers.generateApiResponse(res, req, error, 500);
   }
 };
 

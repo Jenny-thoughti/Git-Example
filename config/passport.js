@@ -19,8 +19,8 @@ passport.use(
     'login',
     new LocalStrategy(
         {
-          usernameField: 'user_name',
-          passwordField: 'password',
+          usernameField: 'userName',
+          passwordField: 'user_password',
           session: false,
         },
         (user_name, password, done) => {
