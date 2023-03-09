@@ -22,7 +22,7 @@ const getAllUsers = async (req, res) => {
     helpers.generateApiResponse(res, req, 'Data found.', 200, users);
   } catch (error) {
     console.log('API:', error);
-    return helpers.generateApiResponse(res, req, error.message, 500);
+    return helpers.generateApiResponse(res, req, error, 500);
   }
 };
 
@@ -38,7 +38,7 @@ const getById = async (req, res) => {
     }
     return helpers.generateApiResponse(res, req, 'Data found.', 200, usersData);
   } catch (error) {
-    return helpers.generateApiResponse(res, req, error.message, 500);
+    return helpers.generateApiResponse(res, req, error, 500);
   }
 };
 
@@ -53,7 +53,7 @@ const check = async (req, res) => {
     });
     return helpers.generateApiResponse(res, req, 'Sata found.', 200, data);
   } catch (error) {
-    return helpers.generateApiResponse(res, req, error.message, 500);
+    return helpers.generateApiResponse(res, req, error, 500);
   }
 };
 
@@ -86,7 +86,7 @@ const addUser = async (req, res) => {
     const userCreate = await models.User.create(info);
     helpers.generateApiResponse(res, req, 'Users created.', 200, userCreate);
   } catch (error) {
-    return helpers.generateApiResponse(res, req, error.message, 500);
+    return helpers.generateApiResponse(res, req, error, 500);
   }
 };
 
@@ -128,7 +128,7 @@ const updateUsers = async (req, res) => {
       helpers.generateApiResponse(res, req, 'Users Updated.', 200);
     });
   } catch (error) {
-    return helpers.generateApiResponse(res, req, error.message, 500);
+    return helpers.generateApiResponse(res, req, error, 500);
   }
 };
 
@@ -145,7 +145,7 @@ const deleteUsers = async (req, res) => {
       helpers.generateApiResponse(res, req, 'Users is deleted.', 200);
     });
   } catch (error) {
-    return helpers.generateApiResponse(res, req, error.message, 500);
+    return helpers.generateApiResponse(res, req, error, 500);
   }
 };
 
@@ -186,30 +186,37 @@ const userLogin = async (req, res, next) => {
       });
     })(req, res, next);
   } catch (error) {
-    helpers.generateApiResponse(res, req, error.message, 500);
+    helpers.generateApiResponse(res, req, error, 500);
   }
 };
 
-const home = async (req, res) => {
+const home = async (req, res, next) => {
   try {
-    jwt.verify(req.token, jwtSecret.secret, (err, user)=>{
+    passport.authenticate('jwt', {session: false}, async (err, users, info) => {
       if (err) {
-        console.log('error while verifying access token:', err);
-        return helpers.generateApiResponse(res, req, err.message, 403);
+        return helpers.generateApiResponse(res, req, err, 401);
       }
-      // console.log('testing: ', user);
+      if (info !== undefined) {
+        return helpers.generateApiResponse(res, req, info.message, 401);
+      }
       const authData = {
-        id: user.id,
-        role: user.role,
+        id: users.id,
       };
-      helpers.generateApiResponse(res, req, 'Welcome to Profile', 200, authData);
-    });
-  } catch (error) {
-    console.log('Error message:', error.message);
-    helpers.generateApiResponse(res, req, error.message, 500);
+      const authorizationHeader = req.headers.authorization;
+      const jwtToken = authorizationHeader.split(' ')[1];
+      const data = await models.User.findOne({where: {access_token: jwtToken}});
+      if (users.id) {
+        if (data !== null) {
+          return helpers.generateApiResponse(res, req, 'Welcome to Profile', 200, authData);
+        }
+        helpers.generateApiResponse(res, req, 'No Token Found', 404);
+      }
+      helpers.generateApiResponse(res, req, 'User is not authenticated', 401);
+    })(req, res, next);
+  } catch (err) {
+    helpers.generateApiResponse(res, req, err, 500);
   }
 };
-
 
 const logout = async (req, res, next) => {
   try {
