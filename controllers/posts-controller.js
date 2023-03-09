@@ -20,7 +20,7 @@ const getAllPosts = async (req, res) => {
     }
     helpers.generateApiResponse(res, req, 'Posts Data found.', 200, posts);
   } catch (error) {
-    return helpers.generateApiResponse(res, req, error.message, 500);
+    return helpers.generateApiResponse(res, req, error, 500);
   }
 };
 
@@ -61,7 +61,7 @@ const addPosts = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return helpers.generateApiResponse(res, req, errors.array(), 400);
+      return helpers.generateApiResponse(res, req, errors, 400);
     }
 
     // name already exists

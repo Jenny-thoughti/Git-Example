@@ -30,7 +30,7 @@ const getAllUsers = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
-    const usersData = await models.User.scope(['withoutPassword', 'withoutToken']).findByPk(id, {});
+    const usersData = await models.User.scope(['withoutPassword', 'withoutToken']).findByPk(id);
     if (usersData == null) {
       return helpers.generateApiResponse(res, req, 'No data found.', 404);
     }
@@ -50,6 +50,9 @@ const check = async (req, res) => {
         status: scopes,
       },
     });
+    if (data.count <= 0) {
+      return helpers.generateApiResponse(res, req, 'No data found.', 404);
+    }
     if (scopes == 0 || scopes == 1) {
       return helpers.generateApiResponse(res, req, 'Data found.', 200, data);
     }

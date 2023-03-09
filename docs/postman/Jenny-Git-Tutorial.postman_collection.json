@@ -89,7 +89,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n                \"first_name\": \"Test 8\",\r\n                \"last_name\": \"User 8\",\r\n                \"email\": \"user8@gmail.com\",\r\n                \"user_name\": \"user8\",\r\n                \"password\": \"123456\",\r\n                \"role\": \"User\",\r\n                \"status\": \"1\",\r\n                \"qualification\": \"BCOM\"\r\n}",
+							"raw": "{\r\n                \"user_first_name\": \"Test 9\",\r\n                \"user_last_name\": \"User 8\",\r\n                \"user_email\": \"user9@gmail.com\",\r\n                \"userName\": \"user9\",\r\n                \"user_password\": \"123456\",\r\n                \"user_role\": \"User\",\r\n                \"user_status\": \"1\",\r\n                \"user_qualification\": \"BCOM\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -255,7 +255,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n                \"first_name\": \"Test 8\",\r\n                \"last_name\": \"User 8\",\r\n                \"email\": \"user8888@gmail.com\",\r\n                \"user_name\": \"user8888\",\r\n                \"password\": \"123456\",\r\n                \"role\": \"User\",\r\n                \"status\": \"1\",\r\n                \"qualification\": \"BCA\"\r\n}",
+							"raw": "{\r\n                \"user_first_name\": \"Test 6\",\r\n                \"user_last_name\": \"User 6\",\r\n                \"user_email\": \"user6@gmail.com\",\r\n                \"userName\": \"user6\",\r\n                \"user_password\": \"123456\",\r\n                \"user_role\": \"User\",\r\n                \"user_status\": \"1\",\r\n                \"user_qualification\": \"MBA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -263,7 +263,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/users/8",
+							"raw": "http://localhost:5000/users/6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -271,7 +271,7 @@
 							"port": "5000",
 							"path": [
 								"users",
-								"8"
+								"6"
 							]
 						}
 					},
@@ -347,7 +347,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/users/8",
+							"raw": "http://localhost:5000/users/9",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -355,7 +355,7 @@
 							"port": "5000",
 							"path": [
 								"users",
-								"8"
+								"9"
 							]
 						}
 					},
@@ -546,7 +546,7 @@
 					]
 				},
 				{
-					"name": "login",
+					"name": "Login",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -555,12 +555,12 @@
 							"urlencoded": [
 								{
 									"key": "user_name",
-									"value": "user6",
+									"value": "admin",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "456789",
+									"value": "123456",
 									"type": "text"
 								}
 							]
@@ -581,31 +581,41 @@
 					"response": []
 				},
 				{
-					"name": "logout",
+					"name": "Home",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4MzcwNzA3LCJleHAiOjE2NzgzNzI1MDd9.JGS0YPJ9-F_232nTvKna83RMXfqIWeXkzzEp6twRQMc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:5000/users/home",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"home"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4MjU2OTgzLCJleHAiOjE2NzgyNTg3ODN9.PdB204H-sByJjRYSEhcXzn6C2JmYMhOuNemvIWTwRGw",
-								"type": "text"
-							},
-							{
-								"key": "",
-								"value": "",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwiaWF0IjoxNjc4MzcwNzA3LCJleHAiOjE2NzgzNzI1MDd9.JGS0YPJ9-F_232nTvKna83RMXfqIWeXkzzEp6twRQMc",
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
 						"url": {
 							"raw": "http://localhost:5000/users/logout",
 							"protocol": "http",
@@ -616,32 +626,6 @@
 							"path": [
 								"users",
 								"logout"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "home",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IlVzZXIiLCJpYXQiOjE2NzgyNzUzNzgsImV4cCI6MTY3ODI3NzE3OH0.uA7GMnxzP1xgmbK5OWHhrIzR4v6ZEi4JGb0C5gbBWhM",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:5000/users/home",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"users",
-								"home"
 							]
 						}
 					},
@@ -732,7 +716,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"user6\",\r\n    \"comment_status\": \"Closed\",\r\n    \"user_id\": \"2\"\r\n}",
+							"raw": "{\r\n    \"post_name\": \"user73\",\r\n    \"post_comment\": \"Closed\",\r\n    \"post_user_id\": \"5\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -898,7 +882,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"user66\",\r\n    \"comment_status\": \"In Progress\",\r\n    \"user_id\": \"5\"\r\n}",
+							"raw": "{\r\n    \"name\": \"user666\",\r\n    \"comment_status\": \"In Progress\",\r\n    \"user_id\": \"5\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -990,7 +974,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/posts/60",
+							"raw": "http://localhost:5000/posts/655",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -998,7 +982,7 @@
 							"port": "5000",
 							"path": [
 								"posts",
-								"60"
+								"655"
 							]
 						}
 					},
