@@ -15,7 +15,7 @@ const BCRYPT_SALT_ROUNDS = 12;
 const getAllUsers = async (req, res) => {
   try {
     const users = await models.User.scope(['withoutPassword', 'withoutToken']).findAndCountAll();
-    if (users <= 0) {
+    if (users.count <= 0) {
       return helpers.generateApiResponse(res, req, 'No data found.', 404);
     }
     helpers.generateApiResponse(res, req, 'Data found.', 200, users);
@@ -50,7 +50,10 @@ const check = async (req, res) => {
         status: scopes,
       },
     });
-    return helpers.generateApiResponse(res, req, 'Data found.', 200, data);
+    if (scopes == 0 || scopes == 1) {
+      return helpers.generateApiResponse(res, req, 'Data found.', 200, data);
+    }
+    helpers.generateApiResponse(res, req, 'Enter valid input', 400);
   } catch (error) {
     return helpers.generateApiResponse(res, req, error, 500);
   }

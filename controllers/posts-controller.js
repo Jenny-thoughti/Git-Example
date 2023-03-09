@@ -15,7 +15,7 @@ const getAllPosts = async (req, res) => {
       },
     ];
     const posts = await models.Post.findAndCountAll({include: includeUsers});
-    if (posts <= 0) {
+    if (posts.count <= 0) {
       return helpers.generateApiResponse(res, req, 'No Data found.', 404);
     }
     helpers.generateApiResponse(res, req, 'Posts Data found.', 200, posts);
