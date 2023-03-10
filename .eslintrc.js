@@ -1,19 +1,19 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'commonjs': true,
-    'es2021': true,
+  env: {
+    browser: true,
+    commonjs: true,
+    es2021: true,
   },
-  'extends': 'google',
-  'overrides': [
-  ],
-  'parserOptions': {
-    'ecmaVersion': 'latest',
+  extends: ['airbnb-base', 'prettier'],
+  overrides: [],
+  parserOptions: {
+    ecmaVersion: 'latest',
   },
-  'rules': {
+  rules: {
     'linebreak-style': 0,
-    'camelcase': 'off',
-    'max-len': ['error', {'code': 200}],
+    camelcase: 'off',
+    'object-shorthand': 'off',
+    'max-len': ['error', { code: 200 }],
     'new-cap': 0,
   },
 };

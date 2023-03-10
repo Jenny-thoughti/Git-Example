@@ -1,12 +1,11 @@
 const pathConst = require('path');
-require('dotenv').config({path: pathConst.resolve(process.cwd(), '.env')});
+require('dotenv').config({ path: pathConst.resolve(process.cwd(), '.env') });
 
-const DB_TYPE = process.env.DB_TYPE;
-const DB_HOST = process.env.DB_HOST;
-const DB_NAME = process.env.DB_NAME;
-const DB_USER = process.env.DB_USER;
+const { DB_TYPE } = process.env;
+const { DB_HOST } = process.env;
+const { DB_NAME } = process.env;
+const { DB_USER } = process.env;
 const DB_PASS = process.env.DB_PASS || null;
-
 
 const configList = {
   username: DB_USER,
@@ -21,5 +20,3 @@ module.exports = {
   test: configList,
   production: configList,
 };
-
-

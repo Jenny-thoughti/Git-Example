@@ -1,9 +1,8 @@
 const moment = require('moment');
-const {validationResult} = require('express-validator');
+const { validationResult } = require('express-validator');
 
 const models = require('../models');
 const helpers = require('../helpers/helpers');
-
 
 //  get all posts and include users
 const getAllPosts = async (req, res) => {
@@ -14,7 +13,7 @@ const getAllPosts = async (req, res) => {
         attributes: ['id', 'first_name', 'last_name', 'email', 'qualification'],
       },
     ];
-    const posts = await models.Post.findAndCountAll({include: includeUsers});
+    const posts = await models.Post.findAndCountAll({ include: includeUsers });
     if (posts.count <= 0) {
       return helpers.generateApiResponse(res, req, 'No Data found.', 404);
     }
@@ -23,7 +22,6 @@ const getAllPosts = async (req, res) => {
     return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
-
 
 // get by id
 const getById = async (req, res) => {
@@ -55,7 +53,6 @@ const getById = async (req, res) => {
   }
 };
 
-
 // create
 const addPosts = async (req, res) => {
   try {
@@ -66,14 +63,23 @@ const addPosts = async (req, res) => {
 
     // name already exists
     const postExists = await models.Post.findOne({
-      where: {name: req.body.post_name},
+      where: { name: req.body.post_name },
     });
     if (postExists != null) {
-      return helpers.generateApiResponse(res, req, 'Posts with same name already exists', 409);
+      return helpers.generateApiResponse(
+        res,
+        req,
+        'Posts with same name already exists',
+        409,
+      );
     }
 
-    const {post_name, post_comment, post_user_id} = req.body;
-    const data = {name: post_name, comment_status: post_comment, user_id: post_user_id};
+    const { post_name, post_comment, post_user_id } = req.body;
+    const data = {
+      name: post_name,
+      comment_status: post_comment,
+      user_id: post_user_id,
+    };
 
     const postCreate = await models.Post.create(data);
     helpers.generateApiResponse(res, req, 'Posts created', 200, postCreate);
@@ -82,7 +88,6 @@ const addPosts = async (req, res) => {
     return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
-
 
 //  Update
 const updatePosts = async (req, res) => {
@@ -93,18 +98,31 @@ const updatePosts = async (req, res) => {
     }
     // already exits
     const postExists = await models.Post.findOne({
-      where: {name: req.body.post_name},
+      where: { name: req.body.post_name },
     });
     if (postExists != null) {
-      return helpers.generateApiResponse(res, req, 'Posts with same name already exists', 409);
+      return helpers.generateApiResponse(
+        res,
+        req,
+        'Posts with same name already exists',
+        409,
+      );
     }
 
-    const id = req.params.id;
-    const {post_name, post_comment, post_user_id, created_at} = req.body;
+    const { id } = req.params;
+    const {
+      post_name, post_comment, post_user_id, created_at,
+    } = req.body;
     const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-    const info = {name: post_name, comment_status: post_comment, user_id: post_user_id, created_at, updated_at: date};
+    const info = {
+      name: post_name,
+      comment_status: post_comment,
+      user_id: post_user_id,
+      created_at,
+      updated_at: date,
+    };
 
-    const updatePost = await models.Post.update(info, {where: {id: id}});
+    const updatePost = await models.Post.update(info, { where: { id } });
     if (updatePost == 0) {
       return helpers.generateApiResponse(res, req, 'No posts', 404);
     }
@@ -114,12 +132,11 @@ const updatePosts = async (req, res) => {
   }
 };
 
-
 // delete
 const deletePosts = async (req, res) => {
   try {
-    const id = req.params.id;
-    const posts = await models.Post.destroy({where: {id: id}});
+    const { id } = req.params;
+    const posts = await models.Post.destroy({ where: { id } });
     if (posts == 0) {
       return helpers.generateApiResponse(res, req, 'No Posts Data', 404);
     }
@@ -128,7 +145,6 @@ const deletePosts = async (req, res) => {
     return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
-
 
 module.exports = {
   getAllPosts,

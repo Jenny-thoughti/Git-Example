@@ -1,6 +1,4 @@
-
 const helpers = {
-
   /**
    * Generate API Response JSON using parameters provided
    *
@@ -13,15 +11,21 @@ const helpers = {
    *
    * @return {string} API Response in JSON format
    */
-  generateApiResponse: async function(res, req, msg='', code = 400, result = []) {
+  async generateApiResponse(
+    res,
+    req,
+    msg = '',
+    code = 400,
+    result = [],
+  ) {
     let success = false;
     let status = 'failure';
     let message = '';
     let error = '';
 
     if (msg == '' || msg.split('|').length <= 1) {
-      message= msg;
-      error=msg;
+      message = msg;
+      error = msg;
     } else {
       const messages = msg.split('|');
       message = messages[0];
@@ -35,9 +39,12 @@ const helpers = {
     }
 
     // eslint-disable-next-line no-return-await
-    return await res.status(code).json({success, status, code, message, error, result});
+    return await res
+      .status(code)
+      .json({
+        success, status, code, message, error, result,
+      });
   },
 };
 
-module.exports= helpers;
-
+module.exports = helpers;
