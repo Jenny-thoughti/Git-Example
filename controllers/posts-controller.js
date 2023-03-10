@@ -20,7 +20,7 @@ const getAllPosts = async (req, res) => {
     }
     helpers.generateApiResponse(res, req, 'Posts Data found.', 200, posts);
   } catch (error) {
-    return helpers.generateApiResponse(res, req, error, 500);
+    return helpers.generateApiResponse(res, req, error.message, 500);
   }
 };
 
@@ -61,7 +61,7 @@ const addPosts = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return helpers.generateApiResponse(res, req, errors, 400);
+      return helpers.generateApiResponse(res, req, errors.array(), 400);
     }
 
     // name already exists
@@ -89,7 +89,7 @@ const updatePosts = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return helpers.generateApiResponse(res, req, errors.array, 400);
+      return helpers.generateApiResponse(res, req, errors.array(), 400);
     }
     // already exits
     const postExists = await models.Post.findOne({
@@ -100,18 +100,15 @@ const updatePosts = async (req, res) => {
     }
 
     const id = req.params.id;
-    const {post_name, post_comment, post_user_id} = req.body;
+    const {post_name, post_comment, post_user_id, created_at} = req.body;
     const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const info = {name: post_name, comment_status: post_comment, user_id: post_user_id, created_at, updated_at: date};
 
-    await models.Post.update(info, {
-      where: {
-        id: id}}).then((count) => {
-      if (!count) {
-        return helpers.generateApiResponse(res, req, 'No posts', 404);
-      }
-      helpers.generateApiResponse(res, req, 'Posts Updated', 200);
-    });
+    const updatePost = await models.Post.update(info, {where: {id: id}});
+    if (updatePost == 0) {
+      return helpers.generateApiResponse(res, req, 'No posts', 404);
+    }
+    helpers.generateApiResponse(res, req, 'Posts Updated', 200, info);
   } catch (error) {
     return helpers.generateApiResponse(res, req, error.message, 500);
   }
@@ -122,14 +119,11 @@ const updatePosts = async (req, res) => {
 const deletePosts = async (req, res) => {
   try {
     const id = req.params.id;
-    await models.Post.destroy({
-      where: {
-        id: id}}).then((count) => {
-      if (!count) {
-        return helpers.generateApiResponse(res, req, 'No Posts Found', 404);
-      }
-      helpers.generateApiResponse(res, req, 'Posts deleted', 200);
-    });
+    const posts = await models.Post.destroy({where: {id: id}});
+    if (posts == 0) {
+      return helpers.generateApiResponse(res, req, 'No Posts Data', 404);
+    }
+    helpers.generateApiResponse(res, req, 'Deleted', 200, posts);
   } catch (error) {
     return helpers.generateApiResponse(res, req, error.message, 500);
   }

@@ -2,16 +2,16 @@
 const helpers = {
 
   /**
-   * Generate API Respose JSON using parameters provided
+   * Generate API Response JSON using parameters provided
    *
    * @param {object} res Response Object
    * @param {object} req Request Object
    * @param {string} msg Message|Error or Message or Error.
-   * (general message, success message or error message. If want to send both message & error, use pipe separeted string.). Default is empty string.
+   * (general message, success message or error message. If want to send both message & error, use pipe separated string.). Default is empty string.
    * @param {number} code HTTP Status Code. Default is 400.
    * @param {string[]} result Response Payload. Default is empty array.
    *
-   * @return {string} API Respose in JSON format
+   * @return {string} API Response in JSON format
    */
   generateApiResponse: async function(res, req, msg='', code = 400, result = []) {
     let success = false;
